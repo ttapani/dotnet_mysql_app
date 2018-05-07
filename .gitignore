@@ -1,0 +1,8 @@
+# Ignore copies created by docker
+bin/
+Bin/
+obj/
+/dotnet-mysql-application.csproj
+
+# Stuff created by OSX
+.DS_Store
