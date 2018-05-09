@@ -17,21 +17,70 @@ namespace dotnet_mysql_application.Controllers
         }
 
         [HttpGet("{id}")]
-        new public IActionResult User(string id)
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public IActionResult GetUserById(string id)
         {
-            var user = db.Users.Single(u => u.Id.ToString() == id);
+            var user = db.Users.SingleOrDefault(u => u.Id.ToString() == id);
             if (user == null)
                 return NotFound();
             return new OkObjectResult(user);
         }
 
         [HttpGet]
-        new public IActionResult User()
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public IActionResult GetAllUsers()
         {
             var users = db.Users.ToList();
             if (users == null)
                 return NotFound();
             return new OkObjectResult(users);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(201, Type = typeof(User))]
+        [ProducesResponseType(400)]
+        public IActionResult AddUser([FromBody] User user)
+        {
+            if(ModelState.IsValid) {
+                db.Users.Add(user);
+                db.SaveChanges();
+                return CreatedAtAction(nameof(GetUserById), new { id = user.Id },  user);
+            }
+            else
+            return BadRequest();
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult UpdateUser(string id, [FromBody] User user)
+        {
+            var targetUser = db.Users.SingleOrDefault(u => u.Id.ToString() == id);
+            if (targetUser == null)
+                return NotFound();
+            else if(ModelState.IsValid) {
+                targetUser.Name = user.Name;
+                db.Users.Update(targetUser);
+                db.SaveChanges();
+                return Ok(user);
+            }
+            else
+                return BadRequest();
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult DeleteUser(string id)
+        {
+            var user = db.Users.SingleOrDefault(u => u.Id.ToString() == id);
+            if (user == null)
+                return NotFound();
+            db.Remove(user);
+            db.SaveChanges();
+            return new NoContentResult();
         }
     }
 }

@@ -6,3 +6,6 @@ obj/
 
 # Stuff created by OSX
 .DS_Store
+
+# VS-code
+.vs
