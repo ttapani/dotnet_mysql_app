@@ -8,13 +8,20 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
+// For database initialization
+using dotnet_mysql_application.Models;
+using Microsoft.Extensions.DependencyInjection;
+using dotnet_mysql_application.Helpers;
+
 namespace dotnet_mysql_application
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+            InitDb.InitializeDatabase(host);
+            host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

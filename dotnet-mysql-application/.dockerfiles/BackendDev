@@ -13,5 +13,10 @@ COPY dotnet-mysql-application.csproj .
 COPY Directory.Build.props .
 RUN dotnet restore
 
+# Init db
+# RUN dotnet ef database drop
+# RUN dotnet ef migrations add InitialCreate --msbuildprojectextensionspath "/code/obj/"
+# RUN dotnet ef database update
+
 # This will build and launch the server in a loop, restarting whenever a *.cs file changes
 ENTRYPOINT dotnet watch run --no-restore
