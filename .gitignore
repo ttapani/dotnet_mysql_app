@@ -9,3 +9,6 @@ obj/
 
 # VS-code
 .vs
+
+# Ignore copy of project file created by docker
+/dotnet-mysql-application.csproj

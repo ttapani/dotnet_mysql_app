@@ -237,6 +237,3 @@ _Pvt_Extensions
 
 # Stuff created by OSX
 .DS_Store
-
-# Ignore copy of project file created by docker
-/dotnet-mysql-application.csproj
