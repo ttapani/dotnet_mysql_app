@@ -14,5 +14,7 @@ namespace dotnet_mysql_application.Models
         public DbSet<User> Users { get; set; }
 
         public DbSet<Loan> Loans { get; set; }
+
+        public DbSet<Role> Roles { get; set; }
     }
 }
