@@ -17,18 +17,21 @@ namespace dotnet_mysql_application.Helpers
                 try
                 {
                     var db = services.GetService<LoanSystemContext>();
-                    db.Database.EnsureCreatedAsync();
-                }
-                catch (Exception ex)
-                {
-                    Console.Write("An error has occured while initializing database: " + ex);
-                }
-
-                try
-                {
                     var env = services.GetService<IHostingEnvironment>();
                     if(env.IsDevelopment()) {
                         Console.WriteLine("We are in dev, init DB here");
+                        db.Database.EnsureDeleted();
+                        db.Database.EnsureCreated();
+                        Console.WriteLine("Initializing roles..");
+                        var roles = new Role []
+                        {
+                            new Role{Description="admin"},
+                            new Role{Description="user"}
+                        };
+                        foreach (Role r in roles) {
+                            db.Roles.Add(r);
+                        }
+                        db.SaveChanges();
                     } else {
                         Console.WriteLine("We are in production, just seed the db");
                     }
