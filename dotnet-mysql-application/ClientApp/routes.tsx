@@ -7,6 +7,7 @@ import { Counter } from './components/Counter';
 import { Loans } from './components/Loans';
 import { Equipments } from './components/Equipments';
 import { Users } from './components/Users';
+import { Register } from './components/Register';
 
 export const routes = <Layout>
     <Route exact path='/' component={ Home } />
@@ -15,4 +16,5 @@ export const routes = <Layout>
     <Route path='/loans' component={ Loans } />
     <Route path='/equipments' component={ Equipments } />
     <Route path='/users' component={ Users } />
+    <Route path='/register' component={ Register } />
 </Layout>;

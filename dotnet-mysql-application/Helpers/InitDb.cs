@@ -22,16 +22,16 @@ namespace dotnet_mysql_application.Helpers
                         Console.WriteLine("We are in dev, init DB here");
                         db.Database.EnsureDeleted();
                         db.Database.EnsureCreated();
-                        Console.WriteLine("Initializing roles..");
-                        var roles = new Role []
-                        {
-                            new Role{Description="admin"},
-                            new Role{Description="user"}
-                        };
-                        foreach (Role r in roles) {
-                            db.Roles.Add(r);
-                        }
-                        db.SaveChanges();
+                        // Console.WriteLine("Initializing roles..");
+                        // var roles = new Role []
+                        // {
+                        //     new Role{Description="admin"},
+                        //     new Role{Description="user"}
+                        // };
+                        // foreach (Role r in roles) {
+                        //     db.Roles.Add(r);
+                        // }
+                        //db.SaveChanges();
                     } else {
                         Console.WriteLine("We are in production, just seed the db");
                     }
