@@ -15,7 +15,7 @@ namespace dotnet_mysql_application.Helpers
             return modelState;
         }
 
-        public static ModelStateDictionary TryAddModelError(string code, string description, ModelStateDictionary modelState)
+        public static ModelStateDictionary AddErrorToModelState(string code, string description, ModelStateDictionary modelState)
         {
             modelState.TryAddModelError(code, description);
             return modelState;
