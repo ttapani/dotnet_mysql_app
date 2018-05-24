@@ -8,6 +8,7 @@ import { Loans } from './components/Loans';
 import { Equipments } from './components/Equipments';
 import { Users } from './components/Users';
 import { Register } from './components/Register';
+import { Login } from './components/Login';
 
 export const routes = <Layout>
     <Route exact path='/' component={ Home } />
@@ -17,4 +18,5 @@ export const routes = <Layout>
     <Route path='/equipments' component={ Equipments } />
     <Route path='/users' component={ Users } />
     <Route path='/register' component={ Register } />
+    <Route path='/login' component={ Login } />
 </Layout>;
