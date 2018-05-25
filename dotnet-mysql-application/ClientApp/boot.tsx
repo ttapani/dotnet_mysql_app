@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { BrowserRouter } from 'react-router-dom';
-import * as RoutesModule from './routes';
+import * as RoutesModule from './router/routes';
 let routes = RoutesModule.routes;
 
 function renderApp() {
@@ -23,8 +23,8 @@ renderApp();
 
 // Allow Hot Module Replacement
 if (module.hot) {
-    module.hot.accept('./routes', () => {
-        routes = require<typeof RoutesModule>('./routes').routes;
+    module.hot.accept('./router/routes', () => {
+        routes = require<typeof RoutesModule>('./router/routes').routes;
         renderApp();
     });
 }
