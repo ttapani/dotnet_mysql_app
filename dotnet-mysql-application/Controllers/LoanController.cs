@@ -5,7 +5,6 @@ using dotnet_mysql_application.Models;
 
 namespace dotnet_mysql_application.Controllers
 {
-    [Authorize(Policy = "ApiUser")]
     [Route("api/v1/[controller]")]
     [Produces("application/json")]
     public class LoanController : Controller
