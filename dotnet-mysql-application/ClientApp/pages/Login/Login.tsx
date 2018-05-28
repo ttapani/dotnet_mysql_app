@@ -24,8 +24,8 @@ export class Login extends React.Component<RouteComponentProps<{}>, {}> {
     }
 
     public render() {
-        return <div>
-            <h1>Login</h1>
+        return <div className="col-md-6 col-md-offset-3">
+        <h2>Login</h2>
 
             <p>Here should be a login form.</p>
             <form name="loginForm" onSubmit={this.handleSubmit}>
