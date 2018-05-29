@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import styles from './login.css';
 
 export class Login extends React.Component<RouteComponentProps<{}>, {}> {
     constructor() {
@@ -26,14 +27,14 @@ export class Login extends React.Component<RouteComponentProps<{}>, {}> {
     public render() {
         return <div className="col-md-6 col-md-offset-3">
         <h2>Login</h2>
-
-            <p>Here should be a login form.</p>
-            <form name="loginForm" onSubmit={this.handleSubmit}>
-                <label htmlFor="username">Enter email</label>
-                <input id="username" name="username" type="text" />
-                <label htmlFor="password">Enter password</label>
-                <input id="password" name="password" type="password" />
-                <button>Login!</button>
+            <form name="loginForm" onSubmit={this.handleSubmit} className={styles.signinorm}>
+                <div className={styles.signincontainer}>
+                    <label htmlFor="username">Enter email</label>
+                    <input id="username" name="username" type="text" required/>
+                    <label htmlFor="password">Enter password</label>
+                    <input id="password" name="password" type="password" required/>
+                    <button className={styles.signinbutton}>Login!</button>
+                </div>
             </form>
         </div>;
     }
