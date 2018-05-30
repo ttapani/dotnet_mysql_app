@@ -1,5 +1,5 @@
 #! dockerfile
-FROM microsoft/aspnetcore-build:2.0
+FROM microsoft/dotnet:2.1-sdk-stretch
 
 # Required inside Docker, otherwise file-change events may not trigger
 ENV DOTNET_USE_POLLING_FILE_WATCHER 1
@@ -8,15 +8,24 @@ ENV ASPNETCORE_ENVIRONMENT=Development
 # Set a working dir at least 2 deep. The output and intermediate output folders will be /code/obj and /code/bin
 WORKDIR /code/app
 
+# Install curl
+#RUN apk --no-cache add curl
+#RUN apk --no-cache add 'nodejs<8.11.1-r0'
+#RUN apk --no-cache add 'nodejs-npm<8.11.1-r0'
+
+# Install node
+ENV NODE_VERSION 8.11.1
+
+RUN curl -O "https://nodejs.org/dist/v${NODE_VERSION}/SHASUMS256.txt" && curl -SL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz" --output node-v${NODE_VERSION}-linux-x64.tar.gz \
+    && grep node-v${NODE_VERSION}-linux-x64.tar.gz SHASUMS256.txt | sha256sum -c - \
+    && tar -xzf "node-v${NODE_VERSION}-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
+    && rm node-v${NODE_VERSION}-linux-x64.tar.gz \
+    && ln -s /usr/local/bin/node /usr/bin/node
+
 # By copying these into the image when building it, we don't have to re-run restore everytime we launch a new container
 COPY dotnet-mysql-application.csproj .
 COPY Directory.Build.props .
 RUN dotnet restore
-
-# Init db
-# RUN dotnet ef database drop
-# RUN dotnet ef migrations add InitialCreate --msbuildprojectextensionspath "/code/obj/"
-# RUN dotnet ef database update
 
 # This will build and launch the server in a loop, restarting whenever a *.cs file changes
 ENTRYPOINT dotnet watch run --no-restore
