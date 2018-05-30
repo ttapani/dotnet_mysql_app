@@ -237,3 +237,6 @@ _Pvt_Extensions
 
 # Stuff created by OSX
 .DS_Store
+
+# Typescript directories created for stylesheets
+*.d.ts
