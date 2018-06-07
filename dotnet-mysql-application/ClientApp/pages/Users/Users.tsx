@@ -2,8 +2,8 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 
 export class Users extends React.Component<RouteComponentProps<{}>, {}> {
-    constructor() {
-        super();
+    constructor(props: any) {
+        super(props);
     }
 
     public render() {
