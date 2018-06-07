@@ -3,8 +3,8 @@ import { Link, NavLink } from 'react-router-dom';
 import * as styles from './navMenu.css';
 
 export class NavMenu extends React.Component<{}, {}> {
-    constructor() {
-        super();
+    constructor(props: any) {
+        super(props);
     }
 
     public render() {
@@ -62,6 +62,11 @@ export class NavMenu extends React.Component<{}, {}> {
                     </ul>
                     <ul className='nav navbar-nav navbar-right'>
                         <li>
+                            <NavLink to={ '/register' } activeClassName='active'>
+                                <span className='glyphicon glyphicon-user'></span> Register
+                            </NavLink>
+                            </li>
+                            <li>
                             <NavLink to={ '/login' } activeClassName='active'>
                                 <span className='glyphicon glyphicon-log-in'></span> Login
                             </NavLink>
