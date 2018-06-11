@@ -1,8 +1,11 @@
 import { Action } from 'redux';
 
-export interface UserState {
-  currentUser?: UserInfo,
-  loading: boolean
+export interface LoginState {
+  loggedIn?: boolean,
+  isLoggingIn?: boolean,
+  userId?: string,
+  loginError?: string,
+  userName?: string,
 }
 
 export interface UserToken {
