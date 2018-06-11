@@ -1,20 +1,19 @@
 import { Reducer } from 'redux';
-import { UserState, UserActions, UserInfo } from './types';
+import { LoginState, UserActions, UserInfo } from './types';
 
-export const initialState: UserState = {
-  loading: false,
+export const initialState: LoginState = {
+  loggedIn: false,
+  isLoggingIn: false,
 };
 
-const reducer: Reducer<UserState> = (state: UserState = initialState, action) => {
-  // We'll augment the action type on the switch case to make sure we have
-  // all the cases handled.
+const reducer: Reducer<LoginState> = (state: LoginState = initialState, action) => {
   switch ((action as UserActions).type) {
     case '@@user/SIGNIN':
-      return { ...state, credentials: action.payload.credentials };
+      return { ...state, loggedIn: false, credentials: action.payload.credentials, isLoggingIn: true };
     case '@@user/SIGNIN_SUCCESS':
-      return { ...state, token: action.payload.token };
+      return { ...state, loggedIn: true, token: action.payload.token, isLoggingIn: false };
     case '@@user/SIGNIN_FAILURE':
-      return { ...state, message: action.payload.message };
+      return { ...state, loggedIn: false, message: action.payload.message, isLoggingIn: false };
     default:
       return state;
   }
