@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import * as styles from './login.css';
 import { signInUser, signInUserSuccess, signInUserFailure, userFromToken } from '../../store/user/actions';
 import { connect, Dispatch } from 'react-redux';
-import { UserState, UserSignInActions } from '../../store/user/types';
+import { LoginState, UserSignInActions } from '../../store/user/types';
 import { ConnectedReduxProps, ApplicationState } from '../../store';
 import { AnyAction } from 'redux';
 
@@ -13,11 +13,13 @@ interface ILoginValidationError {
     password?:string;
 }
 
-export interface LoginPageProps extends ConnectedReduxProps<UserState>, RouteComponentProps<any>, React.Props<any> {
-
+export interface LoginPageProps extends ConnectedReduxProps<LoginState>, RouteComponentProps<any>, React.Props<any> {
 }
 
-type AllProps = LoginPageProps & UserState; 
+interface State {
+}
+
+type AllProps = LoginPageProps & LoginState; 
 
 // Client side validation
 function validate(values:any) {
@@ -34,15 +36,16 @@ function validate(values:any) {
     return hasErrors && errors;
 }
 
-class Login extends React.Component<AllProps, { }> {
+class Login extends React.Component<any, any> {
     constructor(props: AllProps) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = {
+        }
     }
 
     handleSubmit(event: any): void {
         event.preventDefault();
-        console.log("login form submitted")
         const formData = new FormData(event.target);
         const credentials = {
             "username": formData.get("username"),
@@ -56,13 +59,13 @@ class Login extends React.Component<AllProps, { }> {
         <h2>Login</h2>
         <div className={styles.signincontainer}>
             <form name="loginForm" onSubmit={this.handleSubmit} className={styles.signinform}>
-
+            <fieldset disabled={this.props.isLoggingIn ? true : false }>
                     <label htmlFor="username">Enter email</label>
                     <input id="username" name="username" type="text" required/>
                     <label htmlFor="password">Enter password</label>
                     <input id="password" name="password" type="password" required/>
                     <button className={styles.signinbutton}>Login!</button>
-
+            </fieldset>
             </form>
             </div>
         </div>;
@@ -70,5 +73,5 @@ class Login extends React.Component<AllProps, { }> {
 }
 
 export default connect(
-    (state: ApplicationState) => state.user,
+    (state: ApplicationState) => state.login,
 )(Login);
