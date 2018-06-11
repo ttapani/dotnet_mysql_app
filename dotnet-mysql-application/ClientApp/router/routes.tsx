@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
 import { Layout } from '../layout';
-import { Home, FetchData, Counter, Loans, Equipments, Users, Register } from '../pages'
-import Login from '../pages/login/login';
+import { Home, FetchData, Counter, Loans, Equipments, Users, Register, Login } from '../pages'
 
 export const routes = <Layout>
 {/*     <Route exact path='/' component={ Home } /> */}
@@ -12,5 +11,5 @@ export const routes = <Layout>
     <Route path='/loans' component={ Loans } />
     <Route path='/equipments' component={ Equipments } />
     <Route path='/users' component={ Users } />
-    <Route path='/login' component={ Login as any} />
+    <Route path='/login' component={ Login } />
 </Layout>;

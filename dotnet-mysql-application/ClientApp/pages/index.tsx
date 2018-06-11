@@ -5,4 +5,4 @@ export * from './loans/loans';
 export * from './equipments/equipments';
 export * from './users/users';
 export * from './register/register';
-export * from './login/login';
+export { default as Login } from './login/login';
