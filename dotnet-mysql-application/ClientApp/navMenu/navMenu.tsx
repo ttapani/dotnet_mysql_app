@@ -1,11 +1,28 @@
 import * as React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, RouteComponentProps } from 'react-router-dom';
 import * as styles from './navMenu.css';
+import { connect } from 'react-redux';
+import { ApplicationState } from '../store';
+import { LoginState } from '../store/user/types';
 
-export class NavMenu extends React.Component<{}, {}> {
-    constructor(props: any) {
-        super(props);
+{/* NavMenu is not a route component, don't give it RouteComponentProps!!! */}
+export interface NavMenuProps {
+}
+
+interface State {
+}
+
+type AllProps = NavMenuProps & LoginState; 
+
+class NavMenu extends React.Component<AllProps, State> {
+    constructor(props: AllProps) {
+        super(props); 
+        this.state = {
+        };
     }
+    
+    readonly state: State = {
+    };
 
     public render() {
         return <div className={styles.mainNav}>
@@ -61,14 +78,19 @@ export class NavMenu extends React.Component<{}, {}> {
                         
                     </ul>
                     <ul className='nav navbar-nav navbar-right'>
-                        <li>
+                        <li className={this.props.loggedIn ? "hidden" : ""}>
                             <NavLink to={ '/register' } activeClassName='active'>
                                 <span className='glyphicon glyphicon-user'></span> Register
                             </NavLink>
-                            </li>
-                            <li>
-                            <NavLink to={ '/login' } activeClassName='active'>
+                        </li>
+                        <li className={this.props.loggedIn ? "hidden" : ""}>
+                            <NavLink to={ '/login' }  activeClassName='active'>
                                 <span className='glyphicon glyphicon-log-in'></span> Login
+                            </NavLink>
+                        </li>
+                        <li className={!this.props.loggedIn ? "hidden" : ""}>
+                            <NavLink to={ '/logout' } activeClassName='active'>
+                                <span className='glyphicon glyphicon-log-in'></span> Logout
                             </NavLink>
                         </li>
                     </ul>
@@ -78,3 +100,7 @@ export class NavMenu extends React.Component<{}, {}> {
         </div>;
     }
 }
+
+export default connect(
+    (state: ApplicationState) => state.login,
+)(NavMenu);
