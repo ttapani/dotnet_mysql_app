@@ -7,6 +7,7 @@ import { LoginState } from '../store/user/types';
 
 {/* NavMenu is not a route component, don't give it RouteComponentProps!!! */}
 export interface NavMenuProps {
+    isLoggedIn: boolean,
 }
 
 interface State {
@@ -78,17 +79,17 @@ class NavMenu extends React.Component<AllProps, State> {
                         
                     </ul>
                     <ul className='nav navbar-nav navbar-right'>
-                        <li className={this.props.loggedIn ? "hidden" : ""}>
+                        <li className={this.props.isLoggedIn ? "hidden" : ""}>
                             <NavLink to={ '/register' } activeClassName='active'>
                                 <span className='glyphicon glyphicon-user'></span> Register
                             </NavLink>
                         </li>
-                        <li className={this.props.loggedIn ? "hidden" : ""}>
+                        <li className={this.props.isLoggedIn ? "hidden" : ""}>
                             <NavLink to={ '/login' }  activeClassName='active'>
                                 <span className='glyphicon glyphicon-log-in'></span> Login
                             </NavLink>
                         </li>
-                        <li className={!this.props.loggedIn ? "hidden" : ""}>
+                        <li className={!this.props.isLoggedIn ? "hidden" : ""}>
                             <NavLink to={ '/logout' } activeClassName='active'>
                                 <span className='glyphicon glyphicon-log-in'></span> Logout
                             </NavLink>
@@ -101,6 +102,10 @@ class NavMenu extends React.Component<AllProps, State> {
     }
 }
 
+const mapStateToProps = (state: ApplicationState) => ({
+    isLoggedIn: state.login.loggedIn
+});
+
 export default connect(
-    (state: ApplicationState) => state.login,
+    mapStateToProps
 )(NavMenu);
