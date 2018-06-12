@@ -23,14 +23,7 @@ class Login extends React.Component<AllProps> {
     constructor(props: AllProps) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.state = {
-        }
     }
-
-    static contextTypes: React.ValidationMap<any> = {
-        router: PropTypes.func.isRequired,
-        history: PropTypes.object.isRequired,
-    };
 
     handleSubmit(event: any): void {
         event.preventDefault();
