@@ -1,6 +1,6 @@
 import { ActionCreator, Action } from 'redux';
 
-import { SignUpUserAction, SignUpUserSuccessAction, SignUpUserFailureAction, ResetUserAction, SignInUserAction, SignInUserSuccessAction, SignInUserFailureAction, UserInfo, UserCredentials, UserToken, UserFromTokenAction, UserFromTokenSuccessAction, UserFromTokenFailureAction } from './types';
+import { SignUpUserAction, SignUpUserSuccessAction, SignUpUserFailureAction, LogOutUserAction, SignInUserAction, SignInUserSuccessAction, SignInUserFailureAction, UserInfo, UserCredentials, UserToken, UserFromTokenAction, UserFromTokenSuccessAction, UserFromTokenFailureAction } from './types';
 
 // Type these action creators with `: ActionCreator<ActionTypeYouWantToPass>`.
 // Remember, you can also pass parameters into an action creator. Make sure to
@@ -27,8 +27,8 @@ export const signUpUserFailure: ActionCreator<SignUpUserFailureAction> = (messag
     },
 });
 
-export const resetUser: ActionCreator<ResetUserAction> = () => ({
-    type: '@@user/RESET_USER',
+export const logOutUser: ActionCreator<LogOutUserAction> = () => ({
+    type: '@@user/LOGOUT',
 });
 
 export const signInUser: ActionCreator<SignInUserAction> = (credentials: UserCredentials) => ({
