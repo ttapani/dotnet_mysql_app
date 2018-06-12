@@ -1,5 +1,5 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects';
-import { SignInUserAction, UserCredentials, UserToken, SignInUserFailureAction, SignInUserSuccessAction } from './types';
+import { SignInUserAction, UserCredentials, UserToken, SignInUserFailureAction, SignInUserSuccessAction, LogOutUserAction } from './types';
 import { Action } from 'redux';
 import { signInUserSuccess, signInUserFailure } from './actions';
 import { push } from 'react-router-redux';
@@ -64,10 +64,22 @@ export function* watchSignInUserSuccess() {
   yield takeLatest('@@user/SIGNIN_SUCCESS', signInUser);
 }
 
+export function* logOutUser(action: LogOutUserAction) {
+  sessionStorage.removeItem('jwtToken');
+  console.log("removed jwttoken");
+  yield put(push('/'));
+}
+
+export function* watchLogOutUser() {
+  yield takeLatest('@@user/LOGOUT', logOutUser);
+}
+
 export default function* userSagas() {
   yield all([
     watchSignInUser(),
     watchSignInUserFailure(),
     watchSignInUserSuccess(),
+    watchLogOutUser(),
   ])
 }
+
