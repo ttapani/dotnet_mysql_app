@@ -14,6 +14,8 @@ const reducer: Reducer<LoginState> = (state: LoginState = initialState, action) 
       return { ...state, loggedIn: true, token: action.payload.token, isLoggingIn: false };
     case '@@user/SIGNIN_FAILURE':
       return { ...state, loggedIn: false, message: action.payload.message, isLoggingIn: false };
+    case '@@user/LOGOUT':
+      return { ...state, loggedIn: false };
     default:
       return state;
   }
