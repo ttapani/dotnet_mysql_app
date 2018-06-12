@@ -14,5 +14,5 @@ export const reducers: Reducer<ApplicationState> = combineReducers<ApplicationSt
 });
 
 export interface ConnectedReduxProps<S> {
-    dispatch?: Dispatch<S>;
+    dispatch: Dispatch<S>;
 }
