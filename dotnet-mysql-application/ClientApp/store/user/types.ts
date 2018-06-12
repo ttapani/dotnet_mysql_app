@@ -46,8 +46,8 @@ export interface SignUpUserFailureAction extends Action {
   }
 }
 
-export interface ResetUserAction extends Action {
-  type: '@@user/RESET_USER'
+export interface LogOutUserAction extends Action {
+  type: '@@user/LOGOUT'
 }
 
 export interface SignInUserAction extends Action {
@@ -96,7 +96,7 @@ export interface ResetTokenAction extends Action {
   type: '@@user/RESET_TOKEN';
 }
 
-export type UserSignUpActions = SignUpUserAction | SignUpUserSuccessAction | SignUpUserFailureAction | ResetUserAction;
+export type UserSignUpActions = SignUpUserAction | SignUpUserSuccessAction | SignUpUserFailureAction | LogOutUserAction;
 export type UserSignInActions = SignInUserAction | SignInUserSuccessAction | SignInUserFailureAction;
 export type UserFromTokenActions = UserFromTokenAction | UserFromTokenSuccessAction | UserFromTokenFailureAction | ResetTokenAction;
 export type UserActions = UserSignUpActions | UserSignInActions | UserFromTokenActions;
