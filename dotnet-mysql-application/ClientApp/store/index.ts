@@ -1,11 +1,11 @@
-import { combineReducers, Dispatch, Reducer } from "redux";
-import { routerReducer } from "react-router-redux";
+import { combineReducers, Dispatch, Reducer } from 'redux';
+import { routerReducer } from 'react-router-redux';
 
 import { LoginState } from './user/types';
 import userReducer from './user/reducer';
 
 export interface ApplicationState {
-    login: LoginState,
+    login: LoginState;
 }
 
 export const reducers: Reducer<ApplicationState> = combineReducers<ApplicationState>({
