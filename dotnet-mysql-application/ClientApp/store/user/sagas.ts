@@ -1,38 +1,44 @@
+// tslint:disable-next-line:no-submodule-imports
 import { call, put, takeLatest, all } from 'redux-saga/effects';
-import { SignInUserAction, UserCredentials, UserToken, SignInUserFailureAction, SignInUserSuccessAction, LogOutUserAction } from './types';
+import {
+  SignInUserAction,
+  UserCredentials,
+  SignInUserFailureAction,
+  SignInUserSuccessAction, LogOutUserAction } from './types';
 import { Action } from 'redux';
 import { signInUserSuccess, signInUserFailure } from './actions';
 import { push } from 'react-router-redux';
 
 // loansystem-API
 // This will be moved to services
-function* signinUserApi (credentials: UserCredentials) {
-  console.log("entered promise creator");
-  const url = "http://127.0.0.1:5001/api/auth";
-  const promise = fetch(url, {body: JSON.stringify(credentials), headers: { 'content-type': 'application/json'}, method: 'POST'});
-  console.log("about to yield to promise");
+function* signinUserApi(credentials: UserCredentials) {
+  console.log('entered promise creator');
+  const url = 'http://127.0.0.1:5001/api/auth';
+  const promise = fetch(url,
+    {body: JSON.stringify(credentials), headers: { 'content-type': 'application/json'}, method: 'POST'});
+  console.log('about to yield to promise');
   const response = yield promise;
-  console.log("about to parse response");
+  console.log('about to parse response');
   const data = yield call([response, 'json']);
   console.log(data);
-  console.log("about to exit creator");
+  console.log('about to exit creator');
   return data;
 }
 
 export function* signInUserAsync(action: SignInUserAction) {
-  console.log("saga entered");
-  console.log("action: " + action.type);
+  console.log('saga entered');
+  console.log('action: ' + action.type);
   try {
     const userToken = yield call(signinUserApi, action.payload.credentials);
-    console.log(userToken)
-    if(userToken.hasOwnProperty('auth_token')) {
+    console.log(userToken);
+    if (userToken.hasOwnProperty('auth_token')) {
       sessionStorage.setItem('jwtToken', userToken.auth_token);
       yield put(signInUserSuccess(userToken));
     } else {
-      if('Password' in userToken) {
+      if ('Password' in userToken) {
         const {Password} = userToken;
         throw new Error(Password);
-      } else if('login_failure' in userToken) {
+      } else if ('login_failure' in userToken) {
         const {login_failure} = userToken;
         throw new Error(login_failure);
       }
@@ -48,7 +54,7 @@ export function* watchSignInUser() {
 }
 
 export function* alertUser(action: SignInUserFailureAction) {
-  console.log("failure saga entered");
+  console.log('failure saga entered');
   yield call(window.alert, action.payload.message);
 }
 
@@ -66,7 +72,7 @@ export function* watchSignInUserSuccess() {
 
 export function* logOutUser(action: LogOutUserAction) {
   sessionStorage.removeItem('jwtToken');
-  console.log("removed jwttoken");
+  console.log('removed jwttoken');
   yield put(push('/'));
 }
 
@@ -80,6 +86,5 @@ export default function* userSagas() {
     watchSignInUserFailure(),
     watchSignInUserSuccess(),
     watchLogOutUser(),
-  ])
+  ]);
 }
-
