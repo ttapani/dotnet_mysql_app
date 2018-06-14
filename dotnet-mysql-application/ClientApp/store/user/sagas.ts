@@ -5,17 +5,12 @@ import {
   UserCredentials,
   SignInUserFailureAction,
   SignInUserSuccessAction, LogOutUserAction } from './types';
-import { Action } from 'redux';
 import { signInUserSuccess, signInUserFailure } from './actions';
 import { push } from 'react-router-redux';
+import { signInUserApi } from '../../services/api';
 
-// loansystem-API
-// This will be moved to services
 function* signinUserApi(credentials: UserCredentials) {
-  console.log('entered promise creator');
-  const url = 'http://127.0.0.1:5001/api/auth';
-  const promise = fetch(url,
-    {body: JSON.stringify(credentials), headers: { 'content-type': 'application/json'}, method: 'POST'});
+  const promise = signInUserApi(credentials);
   console.log('about to yield to promise');
   const response = yield promise;
   console.log('about to parse response');
