@@ -32,7 +32,9 @@ class Login extends React.Component<AllProps> {
             "username": formData.get("username"),
             "password": formData.get("password"),
         };
-        this.props.dispatch(signInUser(credentials));
+        if(this.props.dispatch) {
+            this.props.dispatch(signInUser(credentials));
+        }
     }
 
     // Client side validation
@@ -70,4 +72,5 @@ class Login extends React.Component<AllProps> {
 
 export default withRouter(connect(
     (state: ApplicationState) => state.login,
+    null
 )(Login));
