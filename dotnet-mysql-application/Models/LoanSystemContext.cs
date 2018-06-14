@@ -10,7 +10,7 @@ namespace dotnet_mysql_application.Models
         {
         }
 
-        public DbSet<Equipment> Equipments { get; set; }
+        public DbSet<Item> Item { get; set; }
 
         //public DbSet<User> Users { get; set; }
 

@@ -61,8 +61,8 @@ namespace dotnet_mysql_application.Controllers
             if (targetLoan == null)
                 return NotFound();
             else if(ModelState.IsValid) {
-                targetLoan.EquipmentId = loan.Id;
-                targetLoan.Equipment = loan.Equipment;
+                targetLoan.ItemId = loan.Id;
+                targetLoan.Item = loan.Item;
                 targetLoan.UserId = loan.Id;
                 targetLoan.User = loan.User;
                 db.Loans.Update(targetLoan);

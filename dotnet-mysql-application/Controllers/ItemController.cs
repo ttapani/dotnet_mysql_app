@@ -9,11 +9,11 @@ namespace dotnet_mysql_application.Controllers
     [Authorize(Policy = "ApiUser")]
     [Route("api/v1/[controller]")]
     [Produces("application/json")]
-    public class EquipmentController : Controller
+    public class ItemController : Controller
     {
         private readonly LoanSystemContext db;
 
-        public EquipmentController(LoanSystemContext context)
+        public ItemController(LoanSystemContext context)
         {
             db = context;
         }
@@ -21,34 +21,34 @@ namespace dotnet_mysql_application.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public IActionResult GetEquipmentById(string id)
+        public IActionResult GetItemById(string id)
         {
-            var equipment = db.Equipments.Single(e => e.Id.ToString() == id);
-            if (equipment == null)
+            var item = db.Item.Single(i => i.Id.ToString() == id);
+            if (item == null)
                 return NotFound();
-            return new OkObjectResult(equipment);
+            return new OkObjectResult(item);
         }
 
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public IActionResult GetAllEquipment()
+        public IActionResult GetAllItems()
         {
-            var equipments = db.Equipments.ToList();
+            var equipments = db.Item.ToList();
             if (equipments == null)
                 return NotFound();
             return new OkObjectResult(equipments);
         }
 
         [HttpPost]
-        [ProducesResponseType(201, Type = typeof(Equipment))]
+        [ProducesResponseType(201, Type = typeof(Item))]
         [ProducesResponseType(400)]
-        public IActionResult AddEquipment([FromBody] Equipment equipment)
+        public IActionResult AddItem([FromBody] Item item)
         {
             if (ModelState.IsValid) {
-                db.Equipments.Add(equipment);
+                db.Item.Add(item);
                 db.SaveChanges();
-                return CreatedAtAction(nameof(GetEquipmentById), new { id = equipment.Id },  equipment);
+                return CreatedAtAction(nameof(GetItemById), new { id = item.Id },  item);
             }
             else
                 return BadRequest();
@@ -57,16 +57,16 @@ namespace dotnet_mysql_application.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public IActionResult UpdateEquipment(string id, [FromBody] Equipment equipment)
+        public IActionResult UpdateItem(string id, [FromBody] Item item)
         {
-            var targetEquipment = db.Equipments.SingleOrDefault(e => e.Id.ToString() == id);
-            if (targetEquipment == null)
+            var targetItem = db.Item.SingleOrDefault(i => i.Id.ToString() == id);
+            if (targetItem == null)
                 return NotFound();
             else if(ModelState.IsValid) {
-                targetEquipment.Name = equipment.Name;
-                db.Equipments.Update(targetEquipment);
+                targetItem.Name = item.Name;
+                db.Item.Update(targetItem);
                 db.SaveChanges();
-                return Ok(equipment);
+                return Ok(item);
             }
             else
                 return BadRequest();
@@ -75,12 +75,12 @@ namespace dotnet_mysql_application.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult DeleteEquipment(string id)
+        public IActionResult DeleteItem(string id)
         {
-            var equipment = db.Equipments.SingleOrDefault(e => e.Id.ToString() == id);
-            if (equipment == null)
+            var item = db.Item.SingleOrDefault(i => i.Id.ToString() == id);
+            if (item == null)
                 return NotFound();
-            db.Remove(equipment);
+            db.Remove(item);
             db.SaveChanges();
             return new NoContentResult();
         }
