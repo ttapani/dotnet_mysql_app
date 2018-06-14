@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using dotnet_mysql_application.Models;
+using Microsoft.AspNetCore.Identity;
+using AutoMapper;
+using dotnet_mysql_application.ViewModels;
 
 namespace dotnet_mysql_application.Helpers
 {
@@ -18,6 +21,8 @@ namespace dotnet_mysql_application.Helpers
                 {
                     var db = services.GetService<LoanSystemContext>();
                     var env = services.GetService<IHostingEnvironment>();
+                    var userManager = services.GetService<UserManager<LoanSystemUser>>();
+                    var mapper = services.GetService<IMapper>();
                     if(env.IsDevelopment()) {
                         Console.WriteLine("We are in dev, init DB here");
                         db.Database.EnsureDeleted();
@@ -32,6 +37,15 @@ namespace dotnet_mysql_application.Helpers
                         //     db.Roles.Add(r);
                         // }
                         //db.SaveChanges();
+                        var testuser = new RegistrationViewModel {
+                            FirstName = "matti",
+                            LastName = "meikäläinen",
+                            Email = "matti@testi.org",
+                            Password = "salainen"
+                        };
+                        var userIdentity = mapper.Map<LoanSystemUser>(testuser);
+                        var result = userManager.CreateAsync(userIdentity, testuser.Password);
+                        Console.Write("Initialized test user with attributes: matti@testi.org, salainen");
                     } else {
                         Console.WriteLine("We are in production, just seed the db");
                     }
