@@ -1,4 +1,4 @@
-export * from './home/home';
+export { default as Home } from './home/home';
 export * from './fetchData/fetchData';
 export * from './counter/counter';
 export * from './loans/loans';
