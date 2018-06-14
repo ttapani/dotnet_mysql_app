@@ -7,11 +7,13 @@ export class Loans extends React.Component<RouteComponentProps<{}>, {}> {
     }
 
     public render() {
-        return <div>
+        return (
+        <div>
             <h1>Loans</h1>
 
             <p>This is a simple example of a React component.</p>
 
-        </div>;
+        </div>
+        );
     }
 }
