@@ -1,6 +1,10 @@
 import { ActionCreator, Action } from 'redux';
 
-import { SignUpUserAction, SignUpUserSuccessAction, SignUpUserFailureAction, LogOutUserAction, SignInUserAction, SignInUserSuccessAction, SignInUserFailureAction, UserInfo, UserCredentials, UserToken, UserFromTokenAction, UserFromTokenSuccessAction, UserFromTokenFailureAction } from './types';
+import { SignUpUserAction, SignUpUserSuccessAction,
+        SignUpUserFailureAction, LogOutUserAction, SignInUserAction,
+        SignInUserSuccessAction, SignInUserFailureAction, UserInfo,
+        UserCredentials, UserToken, UserFromTokenAction, UserFromTokenSuccessAction,
+        UserFromTokenFailureAction } from './types';
 
 // Type these action creators with `: ActionCreator<ActionTypeYouWantToPass>`.
 // Remember, you can also pass parameters into an action creator. Make sure to
@@ -56,19 +60,19 @@ export const userFromToken: ActionCreator<UserFromTokenAction> = (token: UserTok
     type: '@@user/USER_FROM_TOKEN',
     payload: {
         token,
-    }
-})
+    },
+});
 
 export const userFromTokenSuccess: ActionCreator<UserFromTokenSuccessAction> = (user: UserInfo) => ({
     type: '@@user/USER_FROM_TOKEN_SUCCESS',
     payload: {
         user,
-    }
-})
+    },
+});
 
 export const userFromTokenFailure: ActionCreator<UserFromTokenFailureAction> = (message: string) => ({
     type: '@@user/USER_FROM_TOKEN_FAILURE',
     payload: {
         message,
-    }
-})
+    },
+});
