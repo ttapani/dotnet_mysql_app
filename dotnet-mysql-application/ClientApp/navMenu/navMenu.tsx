@@ -25,7 +25,7 @@ class NavMenu extends React.Component<AllProps> {
     }
 
     handleLogout = (event: any) => {
-        event.preventdefault();
+        event.preventDefault();
         this.props.onLogOutUser();
     }
 
