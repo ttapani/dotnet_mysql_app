@@ -1,9 +1,10 @@
+// tslint:disable-next-line:no-import-side-effect
 import './css/site.css';
+// tslint:disable-next-line:no-import-side-effect
 import 'bootstrap';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import { BrowserRouter } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 import * as RoutesModule from './router/routes';
 
@@ -26,7 +27,7 @@ function renderApp() {
     ReactDOM.render(
         <AppContainer>
             <Provider store={store}>
-                <ConnectedRouter history={ history }>
+                <ConnectedRouter history={history}>
                     <div>
                         {routes}
                     </div>
@@ -48,7 +49,6 @@ function renderApp() {
         document.getElementById('react-app')
     );
 } */
-
 
 renderApp();
 
