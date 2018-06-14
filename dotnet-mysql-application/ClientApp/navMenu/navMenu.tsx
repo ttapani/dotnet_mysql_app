@@ -1,104 +1,84 @@
 import * as React from 'react';
-import { Link, NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import * as styles from './navMenu.css';
 import { connect, Dispatch } from 'react-redux';
-import { ApplicationState, ConnectedReduxProps } from '../store';
-import { LoginState, LogOutUserAction } from '../store/user/types';
+import { ApplicationState } from '../store';
+import { LoginState } from '../store/user/types';
 import { logOutUser } from '../store/user/actions';
-import { LoginPageProps } from '../pages/login/Login';
-import { bindActionCreators, Action } from 'redux';
+import { bindActionCreators } from 'redux';
 
-{/* NavMenu is not a route component, don't give it RouteComponentProps!!! */}
 export interface NavMenuProps extends React.Props<any>  {
-    isLoggedIn?: boolean,
-    onLogOutUser: () => any,
+    isLoggedIn?: boolean;
+    onLogOutUser: () => any;
 }
 
-type AllProps = NavMenuProps & LoginState; 
+type AllProps = NavMenuProps & LoginState;
 
 class NavMenu extends React.Component<AllProps> {
+    public static defaultProps: Partial<AllProps> = {
+        isLoggedIn: false,
+    };
+
     constructor(props: AllProps) {
         super(props);
         this.handleLogout = this.handleLogout.bind(this);
     }
 
-    public static defaultProps: Partial<AllProps> = {
-        isLoggedIn: false,
-    };
-
     handleLogout = (event: any) => {
-        event.preventdefault;
+        event.preventdefault();
         this.props.onLogOutUser();
-    };
+    }
 
     public render() {
-        return <div className={styles.mainNav}>
+        return (
+        <div className={styles.mainNav}>
                 <div className={`navbar-default navbar navbar-inverse navbar-fixed-top`}>
-                    <div className='container-fluid'>
-                        <div className='navbar-header'>
-                            <button type='button' className='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
-                                <span className='sr-only'>Toggle navigation</span>
-                                <span className='icon-bar'></span>
-                                <span className='icon-bar'></span>
-                                <span className='icon-bar'></span>
+                    <div className="container-fluid">
+                        <div className="navbar-header">
+                            <button
+                                type="button"
+                                className="navbar-toggle"
+                                data-toggle="collapse"
+                                data-target=".navbar-collapse"
+                            >
+                                <span className="sr-only">Toggle navigation</span>
+                                <span className="icon-bar"/>
+                                <span className="icon-bar"/>
+                                <span className="icon-bar"/>
                             </button>
-                            <Link className='navbar-brand' to={ '/' }>react</Link>
+                            <Link className="navbar-brand" to={'/'}>react</Link>
                         </div>
                 {/* <div className='clearfix'></div> */}
-                <div className='navbar-collapse collapse'>
-                    <ul className='nav navbar-nav'>
+                <div className="navbar-collapse collapse">
+                    <ul className="nav navbar-nav">
                         <li>
-                            <NavLink to={ '/' } exact activeClassName='active'>
-                                <span className='glyphicon glyphicon-home'></span> Home
+                            <NavLink to={'/'} exact={true} activeClassName="active">
+                                <span className="glyphicon glyphicon-home"/> Home
                             </NavLink>
                         </li>
-                        {/* <li>
-                            <NavLink to={ '/counter' } activeClassName='active'>
-                                <span className='glyphicon glyphicon-education'></span> Counter
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to={ '/fetchdata' } activeClassName='active'>
-                                <span className='glyphicon glyphicon-th-list'></span> Fetch data
-                            </NavLink>
-                        </li> */}
-                        {/* <li>
-                            <NavLink to={ '/equipments' } activeClassName='active'>
-                                <span className='glyphicon glyphicon-th-list'></span> Equipments
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to={ '/loans' } activeClassName='active'>
-                                <span className='glyphicon glyphicon-th-list'></span> Loans
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to={ '/users' } activeClassName='active'>
-                                <span className='glyphicon glyphicon-th-list'></span> Users
-                            </NavLink>
-                        </li> */}  
                     </ul>
-                    <ul className='nav navbar-nav navbar-right'>
-                        <li className={this.props.isLoggedIn ? "hidden" : ""}>
-                            <NavLink to={ '/register' } activeClassName='active'>
-                                <span className='glyphicon glyphicon-user'></span> Register
+                    <ul className="nav navbar-nav navbar-right">
+                        <li className={this.props.isLoggedIn ? 'hidden' : ''}>
+                            <NavLink to={'/register'} activeClassName="active">
+                                <span className="glyphicon glyphicon-user"/> Register
                             </NavLink>
                         </li>
-                        <li className={this.props.isLoggedIn ? "hidden" : ""}>
-                            <NavLink to={ '/login' }  activeClassName='active'>
-                                <span className='glyphicon glyphicon-log-in'></span> Login
+                        <li className={this.props.isLoggedIn ? 'hidden' : ''}>
+                            <NavLink to={'/login'}  activeClassName="active">
+                                <span className="glyphicon glyphicon-log-in"/> Login
                             </NavLink>
                         </li>
-                        <li className={!this.props.isLoggedIn ? "hidden" : ""}>
-                            <NavLink to={ '#' } activeClassName='active' onClick={ this.handleLogout }>
-                                <span className='glyphicon glyphicon-log-in'></span> Logout
+                        <li className={!this.props.isLoggedIn ? 'hidden' : ''}>
+                            <NavLink to={'#'} activeClassName="active" onClick={this.handleLogout}>
+                                <span className="glyphicon glyphicon-log-in"/> Logout
                             </NavLink>
                         </li>
                     </ul>
                 </div>
                 </div>
             </div>
-        </div>;
+        </div>
+        );
     }
 }
 
@@ -113,5 +93,5 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(
 
 export default connect(
     mapStateToProps,
-    mapDispatchToProps,
+    mapDispatchToProps
 )(NavMenu);
