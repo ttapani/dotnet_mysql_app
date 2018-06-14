@@ -19,6 +19,6 @@ const reducer: Reducer<LoginState> = (state: LoginState = initialState, action) 
     default:
       return state;
   }
-}
+};
 
 export default reducer;
