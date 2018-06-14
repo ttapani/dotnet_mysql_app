@@ -5,17 +5,20 @@ import { connect, Dispatch } from 'react-redux';
 import { ApplicationState, ConnectedReduxProps } from '../store';
 import { LoginState, LogOutUserAction } from '../store/user/types';
 import { logOutUser } from '../store/user/actions';
+import { LoginPageProps } from '../pages/login/Login';
+import { bindActionCreators, Action } from 'redux';
 
 {/* NavMenu is not a route component, don't give it RouteComponentProps!!! */}
-export interface NavMenuProps extends ConnectedReduxProps<LoginState>, React.Props<any>  {
+export interface NavMenuProps extends React.Props<any>  {
     isLoggedIn?: boolean,
+    onLogOutUser: () => any,
 }
 
 type AllProps = NavMenuProps & LoginState; 
 
 class NavMenu extends React.Component<AllProps> {
     constructor(props: AllProps) {
-        super(props); 
+        super(props);
         this.handleLogout = this.handleLogout.bind(this);
     }
 
@@ -23,12 +26,10 @@ class NavMenu extends React.Component<AllProps> {
         isLoggedIn: false,
     };
 
-    private handleLogout(event: any) {
+    handleLogout = (event: any) => {
         event.preventdefault;
-        if(this.props.dispatch) {
-            this.props.dispatch(logOutUser());
-        }
-    }
+        this.props.onLogOutUser();
+    };
 
     public render() {
         return <div className={styles.mainNav}>
@@ -104,12 +105,13 @@ class NavMenu extends React.Component<AllProps> {
 const mapStateToProps = (state: ApplicationState) => ({
     isLoggedIn: state.login.loggedIn,
 });
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-    dispatch: dispatch
-})
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators(
+    {
+    onLogOutUser: logOutUser,
+    },
+    dispatch);
 
 export default connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
 )(NavMenu);
