@@ -7,11 +7,13 @@ export interface LayoutProps {
 
 export class Layout extends React.Component<LayoutProps, {}> {
     public render() {
-        return <div>
+        return (
+        <div>
             <NavMenu />
-            <div className='container-fluid'>
-                { this.props.children }
+            <div className="container-fluid">
+                {this.props.children}
             </div>
-        </div>;
+        </div>
+        );
     }
 }
