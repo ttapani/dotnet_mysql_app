@@ -2,18 +2,21 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { FetchItemsState } from '../../store/item/types';
 import { getItems } from '../../store/item/actions';
-import { connect } from 'react-redux';
+import { connect, Dispatch } from 'react-redux';
 import { ApplicationState } from '../../store';
 
-type ItemsProps = FetchItemsState & typeof getItems & RouteComponentProps<{}>;
+interface ItemsProps {
+    getItems: () => any;
+}
 
-class Items extends React.Component<ItemsProps, {}> {
-    constructor(props: ItemsProps) {
+type Allprops = ItemsProps & FetchItemsState & typeof getItems & RouteComponentProps<{}>;
+
+class Items extends React.Component<Allprops, {}> {
+    constructor(props: Allprops) {
         super(props);
     }
 
     public componentWillMount(): void {
-        console.log(this.props);
         this.props.getItems();
     }
 
@@ -23,6 +26,7 @@ class Items extends React.Component<ItemsProps, {}> {
             <h1>Items</h1>
 
             <p>Trying to get some data from API with AJAX.</p>
+            <a onClick={() => this.props.getItems()}>Get Items</a>
 
             {this.renderItemsList()}
 
@@ -33,7 +37,7 @@ class Items extends React.Component<ItemsProps, {}> {
     public renderItemsList() {
         return (
             <ul>
-                {this.props.items.map(item => <li key={item.guid}>{item.name}</li>)}
+                {this.props.items.map(item => <li key={item.id}>{item.name}</li>)}
             </ul>
         );
     }
@@ -41,5 +45,5 @@ class Items extends React.Component<ItemsProps, {}> {
 
 export default connect(
     (state: ApplicationState) => state.items,
-    {getItems}
+    (dispatch: Dispatch) => ({getItems: () => dispatch(getItems())})
 )(Items);
