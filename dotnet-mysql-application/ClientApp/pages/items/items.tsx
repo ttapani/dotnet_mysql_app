@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { FetchItemsState } from '../../store/item/types';
-import { getItems } from '../../store/item/actions';
+import { FetchItemsState, Item } from '../../store/item/types';
+import { getItems, addItem } from '../../store/item/actions';
 import { connect, Dispatch } from 'react-redux';
 import { ApplicationState } from '../../store';
-import Item from './components/item';
+import ItemRow from './components/itemRow';
 
 interface ItemsProps {
     getItems: () => any;
+    addItem: (item: any) => any;
 }
 
 type Allprops = ItemsProps & FetchItemsState & typeof getItems & RouteComponentProps<{}>;
@@ -18,7 +19,17 @@ class Items extends React.Component<Allprops, {}> {
     }
 
     public componentWillMount(): void {
+        console.log(this.props);
         this.props.getItems();
+    }
+
+    public handleSubmit(event: any): void {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const newItem = {
+            name: formData.get('name'),
+        };
+        this.props.addItem(newItem);
     }
 
     public render() {
@@ -26,11 +37,17 @@ class Items extends React.Component<Allprops, {}> {
         <div>
             <h1>Items</h1>
 
-            <p>Trying to get some data from API with AJAX.</p>
             <a onClick={() => this.props.getItems()}>Get Items</a>
-
+            <div>
+            <form name="addItemForm" onSubmit={this.handleSubmit}>
+            <fieldset disabled={this.props.isLoading ? true : false}>
+                    <label htmlFor="name">Item name</label>
+                    <input id="name" name="name" type="text" required={true}/>
+                    <button>Submit</button>
+            </fieldset>
+            </form>
+            </div>
             {this.renderItemsList()}
-
         </div>
         );
     }
@@ -38,7 +55,7 @@ class Items extends React.Component<Allprops, {}> {
     public renderItemsList() {
         return (
             <ul>
-                {this.props.items.map(item => <li key={item.id}><Item name={item.name}/></li>)}
+                 {this.props.items.map(item => <li key={item.id}><ItemRow name={item.name}/></li>)}
             </ul>
         );
     }
@@ -46,5 +63,5 @@ class Items extends React.Component<Allprops, {}> {
 
 export default connect(
     (state: ApplicationState) => state.items,
-    (dispatch: Dispatch) => ({getItems: () => dispatch(getItems())})
+    (dispatch: Dispatch) => ({getItems: () => dispatch(getItems()), addItem: (item: Item) => dispatch(addItem(item))})
 )(Items);
