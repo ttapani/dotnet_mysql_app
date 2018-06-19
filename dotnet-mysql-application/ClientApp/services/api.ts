@@ -1,4 +1,5 @@
 import { UserCredentials } from '../store/user/types';
+import { Item } from '../store/item/types';
 
 const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost:3000/api' : '/api';
 
@@ -29,4 +30,12 @@ export const getItems = () => {
     const promise = fetch(url,
       {headers: getHeaders(), method: 'GET'});
     return promise;
+};
+
+export const addItem = (item: Item) => {
+  console.log('entered promise creator in api');
+  const url = ROOT_URL + '/v1/items';
+  const promise = fetch(url,
+    {body: JSON.stringify(item), headers: getHeaders(), method: 'POST'});
+  return promise;
 };
