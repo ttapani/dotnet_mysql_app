@@ -58,7 +58,7 @@ class NavMenu extends React.Component<AllProps> {
                         </li>
                         <li>
                             <NavLink to={'/items'} activeClassName="active">
-                                <span className="glyphicon glyphicon-home"/> Items
+                                <span className="glyphicon glyphicon-th-list"/> Items
                             </NavLink>
                         </li>
                     </ul>
