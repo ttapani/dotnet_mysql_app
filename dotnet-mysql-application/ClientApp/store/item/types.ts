@@ -6,7 +6,7 @@ export interface FetchItemsState {
 }
 
 export interface Item {
-    guid: string;
+    id: string;
     name: string;
 }
 
