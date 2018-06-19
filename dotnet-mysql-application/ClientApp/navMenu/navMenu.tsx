@@ -56,6 +56,11 @@ class NavMenu extends React.Component<AllProps> {
                                 <span className="glyphicon glyphicon-home"/> Home
                             </NavLink>
                         </li>
+                        <li>
+                            <NavLink to={'/items'} activeClassName="active">
+                                <span className="glyphicon glyphicon-home"/> Items
+                            </NavLink>
+                        </li>
                     </ul>
                     <ul className="nav navbar-nav navbar-right">
                         <li className={this.props.isLoggedIn ? 'hidden' : ''}>
