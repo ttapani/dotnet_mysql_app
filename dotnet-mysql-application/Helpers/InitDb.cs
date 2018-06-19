@@ -45,7 +45,7 @@ namespace dotnet_mysql_application.Helpers
                         };
                         var userIdentity = mapper.Map<LoanSystemUser>(testuser);
                         var result = userManager.CreateAsync(userIdentity, testuser.Password);
-                        Console.Write("Initialized test user with attributes: matti@testi.org, salainen");
+                        Console.WriteLine("Initialized test user with attributes: matti@testi.org, salainen");
                     } else {
                         Console.WriteLine("We are in production, just seed the db");
                     }
