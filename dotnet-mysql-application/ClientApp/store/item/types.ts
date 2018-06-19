@@ -28,4 +28,23 @@ export interface GetItemsFailureAction extends Action {
     };
 }
 
+export interface AddItemAction extends Action {
+    type: '@@items/ADD';
+    payload: {
+        item: Item;
+    };
+}
+
+export interface AddItemSuccessAction extends Action {
+    type: '@@items/ADD_SUCCESS';
+}
+
+export interface AddItemFailureAction extends Action {
+    type: '@@items/ADD_FAILURE';
+    payload: {
+        error: string;
+    };
+}
+
 export type GetItemsActions = GetItemsAction | GetItemsSuccessAction | GetItemsFailureAction;
+export type AddItemActions = AddItemAction | AddItemSuccessAction | AddItemFailureAction;
