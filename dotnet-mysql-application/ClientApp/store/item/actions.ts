@@ -1,11 +1,11 @@
 import { ActionCreator, Action } from 'redux';
-import { GetItemsAction, GetItemsSuccessAction, Items, GetItemsFailureAction } from './types';
+import { GetItemsAction, GetItemsSuccessAction, GetItemsFailureAction, Item } from './types';
 
 export const getItems: ActionCreator<GetItemsAction> = () => ({
     type: '@@items/GET',
 });
 
-export const getItemsSuccess: ActionCreator<GetItemsSuccessAction> = (items: Items) => ({
+export const getItemsSuccess: ActionCreator<GetItemsSuccessAction> = (items: Item[]) => ({
     type: '@@items/GET_SUCCESS',
     payload: {
         items,

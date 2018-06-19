@@ -2,10 +2,6 @@ import { Action } from 'redux';
 
 export interface FetchItemsState {
     isLoading: boolean;
-    items: Items[];
-}
-
-export interface Items {
     items: Item[];
 }
 
@@ -21,7 +17,7 @@ export interface GetItemsAction extends Action {
 export interface GetItemsSuccessAction extends Action {
     type: '@@items/GET_SUCCESS';
     payload: {
-        items: Items;
+        items: Item[];
     };
 }
 
