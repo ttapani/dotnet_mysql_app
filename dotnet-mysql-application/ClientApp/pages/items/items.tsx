@@ -16,6 +16,7 @@ type Allprops = ItemsProps & FetchItemsState & typeof getItems & RouteComponentP
 class Items extends React.Component<Allprops, {}> {
     constructor(props: Allprops) {
         super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     public componentWillMount(): void {
