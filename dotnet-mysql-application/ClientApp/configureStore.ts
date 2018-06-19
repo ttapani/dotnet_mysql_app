@@ -9,6 +9,7 @@ import { routerReducer } from 'react-router-redux';
 
 import createSagaMiddleware from 'redux-saga';
 import userSagas from './store/user/sagas';
+import itemsSagas from './store/item/sagas';
 
 export default function configureStore(
     history: History,
@@ -47,5 +48,6 @@ export default function configureStore(
     }) */
 
     sagaMiddleware.run(userSagas);
+    sagaMiddleware.run(itemsSagas);
     return store;
   }
