@@ -17,6 +17,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using dotnet_mysql_application.Auth;
 using dotnet_mysql_application.Helpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using dotnet_mysql_application.Auth.CustomTokenProvider;
 
 namespace dotnet_mysql_application
 {
@@ -72,7 +75,7 @@ namespace dotnet_mysql_application
                 ClockSkew = TimeSpan.Zero
             };
 
-            services.AddAuthentication(options =>
+/*             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -81,6 +84,17 @@ namespace dotnet_mysql_application
                 configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
                 configureOptions.SaveToken = true;
+            }); */
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options => 
+            {
+                options.Cookie.HttpOnly = false;
+                options.Cookie.Name = "access_token";
+                options.LoginPath = new PathString("/login");
+                options.TicketDataFormat = new CustomJwtDataFormat(
+                    SecurityAlgorithms.HmacSha256,
+                    tokenValidationParameters);
             });
 
             services.AddAuthorization(options =>
@@ -99,7 +113,18 @@ namespace dotnet_mysql_application
             });
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<LoanSystemContext>().AddDefaultTokenProviders();
-
+        
+/*             services.ConfigureApplicationCookie(config =>
+            {
+                config.Cookie.HttpOnly = false;
+                config.Cookie.Name = "access_token";
+                config.Cookie.Expiration = null;
+                config.SlidingExpiration = true;
+                config.LoginPath = new PathString("/api/auth");
+                config.TicketDataFormat = new CustomJwtDataFormat(
+                    SecurityAlgorithms.HmacSha256,
+                    tokenValidationParameters);
+            }); */
             // Add automapper
             services.AddAutoMapper();
 

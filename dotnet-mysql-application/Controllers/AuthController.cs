@@ -8,7 +8,8 @@ using dotnet_mysql_application.Auth;
 using dotnet_mysql_application.Helpers;
 using dotnet_mysql_application.Models;
 using dotnet_mysql_application.ViewModels;
-
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace dotnet_mysql_application.Controllers
 {
@@ -38,7 +39,16 @@ namespace dotnet_mysql_application.Controllers
                 return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
             }
             var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
-            return new OkObjectResult(jwt);
+            // Don't return the token in the response
+            //return new OkObjectResult(jwt);
+            // Set it in a cookie instead, which will be checked on requests..
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true
+            };
+
+            await HttpContext.SignInAsync(new ClaimsPrincipal(identity));
+            return new OkResult();
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
