@@ -4,6 +4,7 @@ import { FetchItemsState } from '../../store/item/types';
 import { getItems } from '../../store/item/actions';
 import { connect, Dispatch } from 'react-redux';
 import { ApplicationState } from '../../store';
+import Item from './components/item';
 
 interface ItemsProps {
     getItems: () => any;
@@ -37,7 +38,7 @@ class Items extends React.Component<Allprops, {}> {
     public renderItemsList() {
         return (
             <ul>
-                {this.props.items.map(item => <li key={item.id}>{item.name}</li>)}
+                {this.props.items.map(item => <li key={item.id}><Item name={item.name}/></li>)}
             </ul>
         );
     }
