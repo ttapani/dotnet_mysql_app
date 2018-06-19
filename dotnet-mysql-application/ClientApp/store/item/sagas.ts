@@ -1,7 +1,7 @@
 // tslint:disable-next-line:no-submodule-imports
 import { call, put, takeLatest, all } from 'redux-saga/effects';
-import { GetItemsAction, GetItemsFailureAction } from './types';
-import { getItemsSuccess, getItemsFailure } from './actions';
+import { GetItemsAction, GetItemsFailureAction, AddItemAction } from './types';
+import { getItemsSuccess, getItemsFailure, addItemSuccess, addItemFailure } from './actions';
 import * as Api from '../../services/api';
 
 export function* getItemsAsync(action: GetItemsAction) {
@@ -38,9 +38,40 @@ export function* watchGetItemsFailure() {
     yield takeLatest('@@items/GET_FAILURE', alertUser);
 }
 
+export function* addItemAsync(action: AddItemAction) {
+    console.log('item add saga entered');
+    console.log('action: ' + action.type);
+    try {
+        const promise = Api.addItem(action.payload.item);
+        console.log('about to yield to promise');
+        const response = yield promise;
+        if (response.ok) {
+            console.log('about to parse response');
+            const data = yield call([response, 'json']);
+            console.log(data);
+            yield put(addItemSuccess(data));
+        } else {
+            throw new Error('Something went wrong');
+        }
+    } catch (err) {
+        console.log(err.message);
+        yield put(addItemFailure(err.message));
+    }
+}
+
+export function* watchAddItem() {
+    yield takeLatest('@@items/ADD', addItemAsync);
+}
+
+export function* watchAddItemFailure() {
+    yield takeLatest('@@items/ADD_FAILURE', alertUser);
+}
+
 export default function* itemsSagas() {
     yield all([
         watchGetItems(),
         watchGetItemsFailure(),
+        watchAddItem(),
+        watchAddItemFailure(),
     ]);
 }
