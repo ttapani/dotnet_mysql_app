@@ -1,7 +1,7 @@
 // tslint:disable-next-line:no-submodule-imports
 import { call, put, takeLatest, all } from 'redux-saga/effects';
-import { GetItemsAction, GetItemsSuccessAction, GetItemsFailureAction } from './types';
-import { getItems, getItemsSuccess, getItemsFailure } from './actions';
+import { GetItemsAction, GetItemsFailureAction } from './types';
+import { getItemsSuccess, getItemsFailure } from './actions';
 import * as Api from '../../services/api';
 
 export function* getItemsAsync(action: GetItemsAction) {
