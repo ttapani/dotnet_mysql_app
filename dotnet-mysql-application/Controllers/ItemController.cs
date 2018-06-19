@@ -9,11 +9,11 @@ namespace dotnet_mysql_application.Controllers
     [Authorize(Policy = "ApiUser")]
     [Route("api/v1/[controller]")]
     [Produces("application/json")]
-    public class ItemController : Controller
+    public class ItemsController : Controller
     {
         private readonly LoanSystemContext db;
 
-        public ItemController(LoanSystemContext context)
+        public ItemsController(LoanSystemContext context)
         {
             db = context;
         }
