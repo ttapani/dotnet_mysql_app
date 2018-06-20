@@ -1,7 +1,7 @@
 // tslint:disable-next-line:no-submodule-imports
 import { call, put, takeLatest, all } from 'redux-saga/effects';
-import { GetItemsAction, GetItemsFailureAction, AddItemAction } from './types';
-import { getItemsSuccess, getItemsFailure, addItemSuccess, addItemFailure } from './actions';
+import { GetItemsAction, GetItemsFailureAction, AddItemAction, DeleteItemAction } from './types';
+import { getItemsSuccess, getItemsFailure, addItemSuccess, addItemFailure, deleteItemSuccess } from './actions';
 import * as Api from '../../services/api';
 
 export function* getItemsAsync(action: GetItemsAction) {
@@ -67,11 +67,39 @@ export function* watchAddItemFailure() {
     yield takeLatest('@@items/ADD_FAILURE', alertUser);
 }
 
+export function* deleteItemAsync(action: DeleteItemAction) {
+    console.log('item delete saga entered');
+    console.log('action: ' + action.type);
+    try {
+        const promise = Api.deleteItem(action.payload.item);
+        console.log('about to yield to promise');
+        const response = yield promise;
+        if (response.ok) {
+            yield put(deleteItemSuccess());
+        } else {
+            throw new Error('Something went wrong');
+        }
+    } catch (err) {
+        console.log(err.message);
+        yield put(addItemFailure(err.message));
+    }
+}
+
+export function* watchDeleteItem() {
+    yield takeLatest('@@items/DELETE', deleteItemAsync);
+}
+
+export function* watchDeleteItemFailure() {
+    yield takeLatest('@@items/DELETE_FAILURE', alertUser);
+}
+
 export default function* itemsSagas() {
     yield all([
         watchGetItems(),
         watchGetItemsFailure(),
         watchAddItem(),
         watchAddItemFailure(),
+        watchDeleteItem(),
+        watchDeleteItemFailure(),
     ]);
 }
