@@ -39,3 +39,11 @@ export const addItem = (item: Item) => {
     {body: JSON.stringify(item), headers: getHeaders(), method: 'POST'});
   return promise;
 };
+
+export const deleteItem = (item: Item) => {
+  console.log('entered promise creator in api');
+  const url = `${ROOT_URL}/v1/items/${item.id}`;
+  const promise = fetch(url,
+    {headers: getHeaders(), method: 'DELETE'});
+  return promise;
+};
