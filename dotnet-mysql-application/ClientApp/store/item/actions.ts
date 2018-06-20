@@ -1,6 +1,7 @@
 import { ActionCreator } from 'redux';
 import { GetItemsAction, GetItemsSuccessAction, GetItemsFailureAction, Item } from './types';
 import { AddItemAction, AddItemSuccessAction, AddItemFailureAction } from './types';
+import { UpdateItemAction, UpdateItemSuccessAction, UpdateItemFailureAction } from './types';
 import { DeleteItemAction, DeleteItemSuccessAction, DeleteItemFailureAction } from './types';
 
 export const getItems: ActionCreator<GetItemsAction> = () => ({
@@ -34,6 +35,27 @@ export const addItemSuccess: ActionCreator<AddItemSuccessAction> = () => ({
 
 export const addItemFailure: ActionCreator<AddItemFailureAction> = (error: string) => ({
     type: '@@items/ADD_FAILURE',
+    payload: {
+        error,
+    },
+});
+
+export const updateItem: ActionCreator<UpdateItemAction> = (item: Item) => ({
+    type: '@@items/UPDATE',
+    payload: {
+        item,
+    },
+});
+
+export const updateItemSuccess: ActionCreator<UpdateItemSuccessAction> = (item: Item) => ({
+    type: '@@items/UPDATE_SUCCESS',
+    payload: {
+        item,
+    },
+});
+
+export const updateItemFailure: ActionCreator<UpdateItemFailureAction> = (error: string) => ({
+    type: '@@items/UPDATE_FAILURE',
     payload: {
         error,
     },
