@@ -75,7 +75,7 @@ export function* deleteItemAsync(action: DeleteItemAction) {
         console.log('about to yield to promise');
         const response = yield promise;
         if (response.ok) {
-            yield put(deleteItemSuccess());
+            yield put(deleteItemSuccess(action.payload.item));
         } else {
             throw new Error('Something went wrong');
         }
