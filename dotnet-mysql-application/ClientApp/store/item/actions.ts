@@ -68,8 +68,11 @@ export const deleteItem: ActionCreator<DeleteItemAction> = (item: Item) => ({
     },
 });
 
-export const deleteItemSuccess: ActionCreator<DeleteItemSuccessAction> = () => ({
+export const deleteItemSuccess: ActionCreator<DeleteItemSuccessAction> = (item: Item) => ({
     type: '@@items/DELETE_SUCCESS',
+    payload: {
+        item,
+    },
 });
 
 export const deleteItemFailure: ActionCreator<DeleteItemFailureAction> = (error: string) => ({
