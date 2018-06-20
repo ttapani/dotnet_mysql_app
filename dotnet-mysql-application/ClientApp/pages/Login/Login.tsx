@@ -32,12 +32,12 @@ class Login extends React.Component<AllProps> {
         <div className="col-md-6 col-md-offset-3">
         <h2>Login</h2>
         <div className={styles.signincontainer}>
-            <form name="loginForm" onSubmit={this.handleSubmit} className={styles.signinform}>
+            <form name="loginForm" onSubmit={this.handleSubmit}>
             <fieldset disabled={this.props.isLoggingIn ? true : false}>
                     <label htmlFor="username">Enter email</label>
-                    <input id="username" name="username" type="text" required={true}/>
+                    <input className={styles.textinput} name="username" type="text" required={true}/>
                     <label htmlFor="password">Enter password</label>
-                    <input id="password" name="password" type="password" required={true}/>
+                    <input className={styles.passwordinput} name="password" type="password" required={true}/>
                     <button className={styles.signinbutton}>Login!</button>
             </fieldset>
             </form>
