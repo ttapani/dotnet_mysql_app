@@ -29,8 +29,11 @@ export const addItem: ActionCreator<AddItemAction> = (item: Item) => ({
     },
 });
 
-export const addItemSuccess: ActionCreator<AddItemSuccessAction> = () => ({
+export const addItemSuccess: ActionCreator<AddItemSuccessAction> = (item: Item) => ({
     type: '@@items/ADD_SUCCESS',
+    payload: {
+        item,
+    },
 });
 
 export const addItemFailure: ActionCreator<AddItemFailureAction> = (error: string) => ({
