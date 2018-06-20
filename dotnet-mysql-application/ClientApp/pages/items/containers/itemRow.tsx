@@ -5,7 +5,7 @@ import { deleteItem } from '../../../store/item/actions';
 
 interface ItemRowProps {
     item: Item;
-    removeItem: (item: Item) => any;
+    deleteItem: (item: Item) => any;
 }
 
 type AllProps = ItemRowProps & typeof deleteItem;
@@ -16,9 +16,9 @@ class ItemRow extends React.Component<AllProps> {
     }
 
     onDelete = (event: any): void => {
-        const { item, removeItem } = this.props;
+        const { item } = this.props;
         event.preventDefault();
-        removeItem(item);
+        this.props.deleteItem(item);
     }
 
     public render() {
@@ -31,5 +31,5 @@ class ItemRow extends React.Component<AllProps> {
 
 export default connect(undefined,
     (dispatch: Dispatch) => ({
-        removeItem: (item: Item) => dispatch(deleteItem(item))})
+        deleteItem: (item: Item) => dispatch(deleteItem(item))})
 )(ItemRow);
