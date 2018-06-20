@@ -76,6 +76,9 @@ export interface DeleteItemAction extends Action {
 
 export interface DeleteItemSuccessAction extends Action {
     type: '@@items/DELETE_SUCCESS';
+    payload: {
+        item: Item;
+    };
 }
 
 export interface DeleteItemFailureAction extends Action {
