@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { FetchItemsState, Item } from '../../store/item/types';
-import { getItems, addItem } from '../../store/item/actions';
+import { getItems, addItem, deleteItem } from '../../store/item/actions';
 import { connect, Dispatch } from 'react-redux';
 import { ApplicationState } from '../../store';
-import ItemRow from './components/itemRow';
+import ItemRow from './containers/itemRow';
 
 interface ItemsProps {
     getItems: () => any;
@@ -56,7 +56,7 @@ class Items extends React.Component<Allprops, {}> {
     public renderItemsList() {
         return (
             <ul>
-                 {this.props.items.map(item => <li key={item.id}><ItemRow name={item.name}/></li>)}
+                {this.props.items.map(item => <li key={item.id}><ItemRow item={item}/></li>)}
             </ul>
         );
     }
@@ -64,5 +64,7 @@ class Items extends React.Component<Allprops, {}> {
 
 export default connect(
     (state: ApplicationState) => state.items,
-    (dispatch: Dispatch) => ({getItems: () => dispatch(getItems()), addItem: (item: Item) => dispatch(addItem(item))})
+    (dispatch: Dispatch) => ({
+        getItems: () => dispatch(getItems()),
+        addItem: (item: Item) => dispatch(addItem(item))})
 )(Items);
