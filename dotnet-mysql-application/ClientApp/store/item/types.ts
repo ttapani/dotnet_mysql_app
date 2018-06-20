@@ -46,5 +46,24 @@ export interface AddItemFailureAction extends Action {
     };
 }
 
+export interface DeleteItemAction extends Action {
+    type: '@@items/DELETE';
+    payload: {
+        item: Item;
+    };
+}
+
+export interface DeleteItemSuccessAction extends Action {
+    type: '@@items/DELETE_SUCCESS';
+}
+
+export interface DeleteItemFailureAction extends Action {
+    type: '@@items/DELETE_FAILURE';
+    payload: {
+        error: string;
+    };
+}
+
 export type GetItemsActions = GetItemsAction | GetItemsSuccessAction | GetItemsFailureAction;
 export type AddItemActions = AddItemAction | AddItemSuccessAction | AddItemFailureAction;
+export type DeleteItemActions = DeleteItemAction | DeleteItemSuccessAction | DeleteItemSuccessAction;
