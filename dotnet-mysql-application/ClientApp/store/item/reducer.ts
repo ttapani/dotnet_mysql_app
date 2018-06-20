@@ -1,7 +1,7 @@
 import { Reducer, combineReducers } from 'redux';
-import { FetchItemsState, GetItemsActions, AddItemActions } from './types';
+import { FetchItemsState, GetItemsActions, AddItemActions, DeleteItemActions } from './types';
 
-type AllItemActions = GetItemsActions | AddItemActions;
+type AllItemActions = GetItemsActions | AddItemActions | DeleteItemActions;
 
 export const initialState: FetchItemsState = {
   items: [],
@@ -24,6 +24,14 @@ const itemsReducer: Reducer<FetchItemsState> = (state: FetchItemsState = initial
       // Something here from the tutorial..
       return { ...state, isLoading: false };
     case '@@items/ADD_FAILURE':
+      // Somehow communicate to UI that we fucked up
+      return { ...state, isLoading: false };
+    case '@@items/DELETE':
+      return { ...state, isLoading: true };
+    case '@@items/DELETE_SUCCESS':
+      // Return new state, where items is an array without the deleted item
+      return { ...state, isLoading: false, items: state.items.filter(item => item !== action.payload.item)};
+    case '@@items/DELETE_FAILURE':
       // Somehow communicate to UI that we fucked up
       return { ...state, isLoading: false };
     default:
