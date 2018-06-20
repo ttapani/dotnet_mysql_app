@@ -21,8 +21,7 @@ const itemsReducer: Reducer<FetchItemsState> = (state: FetchItemsState = initial
     case '@@items/ADD':
       return { ...state, isLoading: true };
     case '@@items/ADD_SUCCESS':
-      // Something here from the tutorial..
-      return { ...state, isLoading: false };
+      return { ...state, isLoading: false, items: [...state.items, action.payload.item] };
     case '@@items/ADD_FAILURE':
       // Somehow communicate to UI that we fucked up
       return { ...state, isLoading: false };
