@@ -37,6 +37,9 @@ export interface AddItemAction extends Action {
 
 export interface AddItemSuccessAction extends Action {
     type: '@@items/ADD_SUCCESS';
+    payload: {
+        item: Item;
+    };
 }
 
 export interface AddItemFailureAction extends Action {
