@@ -7,6 +7,10 @@ import { ApplicationState, reducers } from './store/';
 import { routerMiddleware } from 'react-router-redux';
 import { routerReducer } from 'react-router-redux';
 
+import { persistReducer } from 'redux-persist';
+// tslint:disable-next-line:no-submodule-imports
+import storage from 'redux-persist/lib/storage';
+
 import createSagaMiddleware from 'redux-saga';
 import userSagas from './store/user/sagas';
 import itemsSagas from './store/item/sagas';
@@ -19,10 +23,17 @@ export default function configureStore(
     const composeEnhancers = composeWithDevTools({});
     const sagaMiddleware = createSagaMiddleware();
 
+    const persistConfig = {
+      key: 'root',
+      storage,
+    };
+
+    const persistedReducer = persistReducer(persistConfig, reducers);
+
     // We'll create our store with the combined reducers and the initial Redux state that
     // we'll be passing from our entry point.
     const store = createStore<ApplicationState>(
-      reducers,
+      persistedReducer,
       initialState,
       composeEnhancers(applyMiddleware(
         routerMiddleware(history), sagaMiddleware
@@ -31,8 +42,8 @@ export default function configureStore(
 
     if (module.hot) {
       // Enable Webpack hot module replacement for reducers
-      module.hot.accept('./store', () => {
-        const nextRootReducer = require('./store/index');
+      module.hot.accept('./store/', () => {
+        const nextRootReducer = require('./store/');
         store.replaceReducer(reducers);
       });
     }

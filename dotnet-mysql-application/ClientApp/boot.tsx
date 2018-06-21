@@ -14,6 +14,10 @@ import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 let routes = RoutesModule.routes;
 
+import { persistStore } from 'redux-persist';
+// tslint:disable-next-line:no-submodule-imports
+import { PersistGate } from 'redux-persist/integration/react';
+
 function renderApp() {
     // This code starts up the React app when it runs in a browser. It sets up the routing
     // configuration and injects the app into a DOM element.
@@ -24,14 +28,17 @@ function renderApp() {
     });
     const initialState = (window as any).initialReduxState as ApplicationState;
     const store = configureStore(history, initialState);
+    const persistor = persistStore(store);
     ReactDOM.render(
         <AppContainer>
             <Provider store={store}>
-                <ConnectedRouter history={history}>
-                    <div>
-                        {routes}
-                    </div>
-                </ConnectedRouter>
+                <PersistGate loading={null} persistor={persistor}>
+                    <ConnectedRouter history={history}>
+                        <div>
+                            {routes}
+                        </div>
+                    </ConnectedRouter>
+                </PersistGate>
             </Provider>
         </AppContainer>,
         document.getElementById('react-app')
