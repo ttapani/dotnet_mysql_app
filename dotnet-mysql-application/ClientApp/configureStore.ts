@@ -26,6 +26,7 @@ export default function configureStore(
     const persistConfig = {
       key: 'root',
       storage,
+      whitelist: ['login'],
     };
 
     const persistedReducer = persistReducer(persistConfig, reducers);
