@@ -40,6 +40,14 @@ export const addItem = (item: Item) => {
   return promise;
 };
 
+export const updateItem = (item: Item) => {
+  console.log('entered promise creator in api');
+  const url = `${ROOT_URL}/v1/items/${item.id}`;
+  const promise = fetch(url,
+    {body: JSON.stringify(item), headers: getHeaders(), method: 'PUT'});
+  return promise;
+};
+
 export const deleteItem = (item: Item) => {
   console.log('entered promise creator in api');
   const url = `${ROOT_URL}/v1/items/${item.id}`;
