@@ -1,7 +1,8 @@
 // tslint:disable-next-line:no-submodule-imports
 import { call, put, takeLatest, all } from 'redux-saga/effects';
-import { GetItemsAction, GetItemsFailureAction, AddItemAction, DeleteItemAction } from './types';
+import { GetItemsAction, GetItemsFailureAction, AddItemAction, DeleteItemAction, UpdateItemAction } from './types';
 import { getItemsSuccess, getItemsFailure, addItemSuccess, addItemFailure, deleteItemSuccess } from './actions';
+import { updateItemFailure, updateItemSuccess } from './actions';
 import * as Api from '../../services/api';
 
 export function* getItemsAsync(action: GetItemsAction) {
@@ -67,6 +68,35 @@ export function* watchAddItemFailure() {
     yield takeLatest('@@items/ADD_FAILURE', alertUser);
 }
 
+export function* updateItemAsync(action: UpdateItemAction) {
+    console.log('item update saga entered');
+    console.log('action: ' + action.type);
+    try {
+        const promise = Api.updateItem(action.payload.item);
+        console.log('about to yield to promise');
+        const response = yield promise;
+        if (response.ok) {
+            console.log('about to parse response');
+            const data = yield call([response, 'json']);
+            console.log(data);
+            yield put(updateItemSuccess(data));
+        } else {
+            throw new Error('Something went wrong');
+        }
+    } catch (err) {
+        console.log(err.message);
+        yield put(updateItemFailure(err.message));
+    }
+}
+
+export function* watchUpdateItem() {
+    yield takeLatest('@@items/UPDATE', updateItemAsync);
+}
+
+export function* watchUpdateItemFailure() {
+    yield takeLatest('@@items/UPDATE_FAILURE', alertUser);
+}
+
 export function* deleteItemAsync(action: DeleteItemAction) {
     console.log('item delete saga entered');
     console.log('action: ' + action.type);
@@ -99,6 +129,8 @@ export default function* itemsSagas() {
         watchGetItemsFailure(),
         watchAddItem(),
         watchAddItemFailure(),
+        watchUpdateItem(),
+        watchUpdateItemFailure(),
         watchDeleteItem(),
         watchDeleteItemFailure(),
     ]);
