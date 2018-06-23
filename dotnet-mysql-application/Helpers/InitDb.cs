@@ -47,7 +47,7 @@ namespace dotnet_mysql_application.Helpers
                         var result = userManager.CreateAsync(userIdentity, testuser.Password);
                         Console.WriteLine("Initialized test user with attributes: matti@testi.org, salainen");
                         var faker = new SeedDB(db);
-                        faker.FakeItems(50);
+                        faker.FakeItems(20);
                         Console.WriteLine("Added fake items to db");
                     } else {
                         Console.WriteLine("We are in production, just seed the db");
