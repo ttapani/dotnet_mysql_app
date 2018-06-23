@@ -6,6 +6,7 @@ import { ApplicationState } from '../store';
 import { LoginState } from '../store/user/types';
 import { logOutUser } from '../store/user/actions';
 import { bindActionCreators } from 'redux';
+import { Fragment } from 'react';
 
 export interface NavMenuProps extends React.Props<any>  {
     isLoggedIn?: boolean;
@@ -56,34 +57,59 @@ class NavMenu extends React.Component<AllProps> {
                                 <span className="glyphicon glyphicon-home"/> Home
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink to={'/items'} activeClassName="active">
-                                <span className="glyphicon glyphicon-th-list"/> Items
-                            </NavLink>
-                        </li>
+                        {this.renderNavLeft()}
                     </ul>
                     <ul className="nav navbar-nav navbar-right">
-                        <li className={this.props.isLoggedIn ? 'hidden' : ''}>
-                            <NavLink to={'/register'} activeClassName="active">
-                                <span className="glyphicon glyphicon-user"/> Register
-                            </NavLink>
-                        </li>
-                        <li className={this.props.isLoggedIn ? 'hidden' : ''}>
-                            <NavLink to={'/login'}  activeClassName="active">
-                                <span className="glyphicon glyphicon-log-in"/> Login
-                            </NavLink>
-                        </li>
-                        <li className={!this.props.isLoggedIn ? 'hidden' : ''}>
-                            <NavLink to={'#'} activeClassName="active" onClick={this.handleLogout}>
-                                <span className="glyphicon glyphicon-log-in"/> Logout
-                            </NavLink>
-                        </li>
+                        {this.renderNavRight()}
                     </ul>
                 </div>
                 </div>
             </div>
         </div>
         );
+    }
+
+    private renderNavLeft() {
+        const { isLoggedIn } = this.props;
+        if (isLoggedIn) {
+            return (
+            <li>
+                <NavLink to={'/items'} activeClassName="active">
+                    <span className="glyphicon glyphicon-th-list"/> Items
+                </NavLink>
+            </li>
+            );
+        }
+    }
+
+    private renderNavRight() {
+        const { isLoggedIn } = this.props;
+        if (isLoggedIn) {
+            return (
+            <React.Fragment>
+                <li>
+                    <NavLink to={'#'} activeClassName="active" onClick={this.handleLogout}>
+                        <span className="glyphicon glyphicon-log-in"/> Logout
+                    </NavLink>
+                </li>
+            </React.Fragment>
+            );
+        } else {
+            return (
+            <React.Fragment>
+                <li>
+                    <NavLink to={'/register'} activeClassName="active">
+                        <span className="glyphicon glyphicon-user"/> Register
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink to={'/login'}  activeClassName="active">
+                        <span className="glyphicon glyphicon-log-in"/> Login
+                    </NavLink>
+                </li>
+            </React.Fragment>
+            );
+        }
     }
 }
 
