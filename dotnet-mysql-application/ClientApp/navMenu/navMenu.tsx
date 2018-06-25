@@ -72,11 +72,23 @@ class NavMenu extends React.Component<AllProps> {
         const { isLoggedIn } = this.props;
         if (isLoggedIn) {
             return (
+            <>
             <li>
                 <NavLink to={'/items'} activeClassName="active">
-                    <span className="glyphicon glyphicon-th-list"/> Items
+                    <span className="glyphicon glyphicon-th-list"/> Show Items
                 </NavLink>
             </li>
+            <li>
+                <NavLink to={'/loans'} activeClassName="active">
+                    <span className="glyphicon glyphicon-th-list"/> Show Loans
+                </NavLink>
+            </li>
+            <li>
+                <NavLink to={'/manage'} activeClassName="active">
+                    <span className="glyphicon glyphicon-th-list"/> Manage Items
+                </NavLink>
+            </li>
+            </>
             );
         }
     }
