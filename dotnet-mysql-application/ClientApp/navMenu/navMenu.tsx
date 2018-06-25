@@ -6,7 +6,6 @@ import { ApplicationState } from '../store';
 import { LoginState } from '../store/user/types';
 import { logOutUser } from '../store/user/actions';
 import { bindActionCreators } from 'redux';
-import { Fragment } from 'react';
 
 export interface NavMenuProps extends React.Props<any>  {
     isLoggedIn?: boolean;
