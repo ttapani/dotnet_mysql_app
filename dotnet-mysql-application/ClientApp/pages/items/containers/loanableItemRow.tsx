@@ -41,9 +41,10 @@ class LoanableItemRow extends React.Component<AllProps> {
     }
 
     private renderUnavailable() {
+        const { item: { name } } = this.props;
         return (
-            <div>{name}
-                -Unavailable
+            <div>
+                {name}-Unavailable
             </div>
         );
     }
