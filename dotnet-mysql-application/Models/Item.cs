@@ -12,5 +12,6 @@ namespace dotnet_mysql_application.Models
         [Required]
         [StringLength(250)]
         public string Name { get; set; }
+        public Boolean IsAvailable { get; set; }
     }
 }
