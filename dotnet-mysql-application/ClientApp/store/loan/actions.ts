@@ -21,10 +21,10 @@ export const getLoansFailure: ActionCreator<GetLoansFailureAction> = (error: str
     },
 });
 
-export const addLoan: ActionCreator<AddLoanAction> = (loan: Loan) => ({
+export const addLoan: ActionCreator<AddLoanAction> = (id: string) => ({
     type: '@@loans/ADD',
     payload: {
-        loan,
+        id,
     },
 });
 
