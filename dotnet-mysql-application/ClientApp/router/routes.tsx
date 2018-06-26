@@ -9,4 +9,5 @@ export const routes = (
         <Route path="/manage" component={ManageItems} />
         <Route path="/items" component={Items} />
         <Route path="/login" component={Login} />
+        <Route path="/loans" component={Loans} />
     </Layout>);
