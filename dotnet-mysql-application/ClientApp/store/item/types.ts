@@ -8,6 +8,7 @@ export interface FetchItemsState {
 export interface Item {
     id: string;
     name: string;
+    isAvailable: boolean;
 }
 
 export interface GetItemsAction extends Action {
