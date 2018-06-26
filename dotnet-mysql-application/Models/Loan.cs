@@ -8,10 +8,12 @@ namespace dotnet_mysql_application.Models
 {
     public class Loan
     {
-        public Int64 Id { get; set; }
-        public Int64 ItemId { get; set; }
+        public Guid Id { get; set; }
+        public Guid ItemId { get; set; }
         public Item Item { get; set; }
-        public Int64 UserId { get; set; }
-        public User User { get; set; }
+        public Guid UserId { get; set; }
+        public string User { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }
