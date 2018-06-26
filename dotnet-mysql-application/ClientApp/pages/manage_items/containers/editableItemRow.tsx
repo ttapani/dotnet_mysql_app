@@ -3,7 +3,7 @@ import { Item } from '../../../store/item/types';
 import { connect, Dispatch } from 'react-redux';
 import { deleteItem, updateItem } from '../../../store/item/actions';
 
-interface ItemRowProps {
+interface EditableItemRowProps {
     item: Item;
     updateItem: (item: Item) => any;
     deleteItem: (item: Item) => any;
@@ -14,9 +14,9 @@ interface ItemRowState {
     newName: string;
 }
 
-type AllProps = ItemRowProps & typeof deleteItem;
+type AllProps = EditableItemRowProps & typeof deleteItem;
 
-class ItemRow extends React.Component<AllProps, ItemRowState> {
+class EditableItemRow extends React.Component<AllProps, ItemRowState> {
     constructor(props: AllProps) {
         super(props);
         this.state = { isEditing: false, newName: this.props.item.name };
@@ -83,4 +83,4 @@ export default connect(undefined,
     (dispatch: Dispatch) => ({
         deleteItem: (item: Item) => dispatch(deleteItem(item)),
         updateItem: (item: Item) => dispatch(updateItem(item))})
-)(ItemRow);
+)(EditableItemRow);
