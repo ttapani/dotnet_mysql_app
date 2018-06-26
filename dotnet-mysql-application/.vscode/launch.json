@@ -37,10 +37,22 @@
             }
         },
         {
-            "name": ".NET Core Attach",
+            "name": ".NET Core Docker Attach",
             "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
+            "request": "attach",                    
+            "processId": "${command:pickRemoteProcess}",
+            "sourceFileMap": {
+                "/code/app": "${workspaceFolder}"
+            },
+            "pipeTransport": {
+                "pipeProgram": "docker",
+                "pipeCwd": "${workspaceFolder}",
+                "pipeArgs": [
+                    "exec -i dotnet-mysql-application_backend_1"
+                ],
+                "quoteArgs": false,
+                "debuggerPath": "/vsdbg/vsdbg"
+            }
         }
     ,]
 }
