@@ -55,3 +55,20 @@ export const deleteItem = (item: Item) => {
     {headers: getHeaders(), method: 'DELETE'});
   return promise;
 };
+
+export const getLoans = () => {
+  console.log('entered get loans promise creator in api');
+  const url = ROOT_URL + '/v1/loan';
+  const promise = fetch(url,
+    {headers: getHeaders(), method: 'GET'});
+  return promise;
+};
+
+export const addLoan = (id: string) => {
+console.log('entered add loan promise creator in api');
+const url = ROOT_URL + '/v1/loan';
+const requestObject = {id: id};
+const promise = fetch(url,
+  {body: JSON.stringify(requestObject), headers: getHeaders(), method: 'POST'});
+return promise;
+};
