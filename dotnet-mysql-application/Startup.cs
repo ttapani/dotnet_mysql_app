@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using dotnet_mysql_application.Auth;
 using dotnet_mysql_application.Helpers;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace dotnet_mysql_application
 {
@@ -39,7 +40,9 @@ namespace dotnet_mysql_application
             // Add Database
             if (Configuration["Database:Type"] == "MySQL")
             {
-                services.AddDbContext<LoanSystemContext>(options => options.UseMySql(Configuration["Database:ConnectionString"]));
+                services.AddDbContext<LoanSystemContext>(options => 
+                options.UseMySql(Configuration["Database:ConnectionString"])
+                .EnableSensitiveDataLogging(true));
             }
 
             // Add JWT factory
@@ -55,6 +58,9 @@ namespace dotnet_mysql_application
                 options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
                 options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
             });
+
+            // Fix for some weird thing with AAD
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             var tokenValidationParameters = new TokenValidationParameters
             {
