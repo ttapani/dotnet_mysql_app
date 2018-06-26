@@ -14,6 +14,7 @@ import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 import userSagas from './store/user/sagas';
 import itemsSagas from './store/item/sagas';
+import loansSagas from './store/loan/sagas';
 
 export default function configureStore(
     history: History,
@@ -61,5 +62,6 @@ export default function configureStore(
 
     sagaMiddleware.run(userSagas);
     sagaMiddleware.run(itemsSagas);
+    sagaMiddleware.run(loansSagas);
     return store;
   }
