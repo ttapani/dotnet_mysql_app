@@ -7,11 +7,13 @@ import itemsReducer from './item/reducer';
 import { FetchItemsState } from './item/types';
 import { LoansState } from './loan/types';
 import loansReducer from './loan/reducer';
+import { PersistState } from 'redux-persist';
 
 export interface ApplicationState {
     login: LoginState;
     items: FetchItemsState;
     loans: LoansState;
+    _persist: PersistState;
 }
 
 export const reducers: Reducer<ApplicationState> = combineReducers<ApplicationState>({
