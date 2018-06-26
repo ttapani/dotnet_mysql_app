@@ -1,6 +1,7 @@
 import { Action } from 'redux';
+import { Item } from '../item/types';
 
-export interface LoanState {
+export interface LoansState {
     isLoading: boolean;
     loans: Loan[];
 }
@@ -8,7 +9,9 @@ export interface LoanState {
 export interface Loan {
     id: string;
     userId: string;
+    userName: string;
     itemId: string;
+    item: Item;
     startDate: Date;
     endDate: Date;
 }
@@ -34,7 +37,7 @@ export interface GetLoansFailureAction extends Action {
 export interface AddLoanAction extends Action {
     type: '@@loans/ADD';
     payload: {
-        loan: Loan;
+        id: string;
     };
 }
 
