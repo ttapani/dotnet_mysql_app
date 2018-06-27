@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using dotnet_mysql_application.ViewModels;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
 
 namespace dotnet_mysql_application.Helpers
 {
@@ -24,8 +25,9 @@ namespace dotnet_mysql_application.Helpers
                     var env = services.GetService<IHostingEnvironment>();
                     var userManager = services.GetService<UserManager<LoanSystemUser>>();
                     var mapper = services.GetService<IMapper>();
+                    var logger = services.GetService<ILoggerFactory>().CreateLogger("Init");
                     if(env.IsDevelopment()) {
-                        Console.WriteLine("We are in dev, init DB here");
+                        logger.LogInformation("We are in dev, init DB here");
                         db.Database.EnsureDeleted();
                         db.Database.EnsureCreated();
                         // Console.WriteLine("Initializing roles..");
@@ -46,12 +48,12 @@ namespace dotnet_mysql_application.Helpers
                         };
                         var userIdentity = mapper.Map<LoanSystemUser>(testuser);
                         var result = userManager.CreateAsync(userIdentity, testuser.Password);
-                        Console.WriteLine("Initialized test user with attributes: " + JsonConvert.SerializeObject(testuser));
+                        logger.LogInformation("Initialized test user with attributes: " + JsonConvert.SerializeObject(testuser));
                         var faker = new SeedDB(db);
                         faker.FakeItems(20);
-                        Console.WriteLine("Added fake items to db");
+                        logger.LogInformation("Added fake items to db");
                     } else {
-                        Console.WriteLine("We are in production, just seed the db");
+                        logger.LogInformation("We are in production, just seed the db");
                     }
                 }
                 catch (Exception ex)
