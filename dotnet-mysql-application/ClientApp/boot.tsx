@@ -17,6 +17,7 @@ let routes = RoutesModule.routes;
 import { persistStore } from 'redux-persist';
 // tslint:disable-next-line:no-submodule-imports
 import { PersistGate } from 'redux-persist/integration/react';
+import App from './app';
 
 function renderApp() {
     // This code starts up the React app when it runs in a browser. It sets up the routing
@@ -34,9 +35,7 @@ function renderApp() {
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <ConnectedRouter history={history}>
-                        <div>
-                            {routes}
-                        </div>
+                        <App/>
                     </ConnectedRouter>
                 </PersistGate>
             </Provider>
