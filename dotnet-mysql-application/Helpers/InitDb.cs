@@ -6,6 +6,7 @@ using dotnet_mysql_application.Models;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using dotnet_mysql_application.ViewModels;
+using Newtonsoft.Json;
 
 namespace dotnet_mysql_application.Helpers
 {
@@ -38,14 +39,14 @@ namespace dotnet_mysql_application.Helpers
                         // }
                         //db.SaveChanges();
                         var testuser = new RegistrationViewModel {
-                            FirstName = "matti",
-                            LastName = "meikäläinen",
-                            Email = "matti@testi.org",
-                            Password = "salainen"
+                            FirstName = "test",
+                            LastName = "user",
+                            Email = "test@example.com",
+                            Password = "password"
                         };
                         var userIdentity = mapper.Map<LoanSystemUser>(testuser);
                         var result = userManager.CreateAsync(userIdentity, testuser.Password);
-                        Console.WriteLine("Initialized test user with attributes: matti@testi.org, salainen");
+                        Console.WriteLine("Initialized test user with attributes: " + JsonConvert.SerializeObject(testuser));
                         var faker = new SeedDB(db);
                         faker.FakeItems(20);
                         Console.WriteLine("Added fake items to db");
