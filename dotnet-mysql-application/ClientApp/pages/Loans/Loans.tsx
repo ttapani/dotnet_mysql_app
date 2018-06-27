@@ -4,6 +4,7 @@ import { connect, Dispatch } from 'react-redux';
 import { ApplicationState } from '../../store';
 import { getLoans } from '../../store/loan/actions';
 import { LoansState } from '../../store/loan/types';
+import LoanListItem from './containers/LoanListItem';
 
 interface LoansPageProps {
     getLoans: () => any;
@@ -35,7 +36,7 @@ class Loans extends React.Component<AllProps> {
     private renderLoansList() {
         return (
             <ul>
-                {this.props.loans.map(loan => <li key={loan.id}>{JSON.stringify(loan)}</li>)}
+                {this.props.loans.map(loan => <LoanListItem key={loan.id} loan={loan}/>)}
             </ul>
         );
     }
