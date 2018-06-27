@@ -3,6 +3,7 @@ import { call, put, takeLatest, all } from 'redux-saga/effects';
 import { GetLoansAction, GetLoansFailureAction, AddLoanAction } from './types';
 import { getLoansSuccess, getLoansFailure, addLoanSuccess, addLoanFailure } from './actions';
 import * as Api from '../../services/api';
+import { getItems } from '../item/actions';
 
 export function* getLoansAsync(action: GetLoansAction) {
     console.log('get loans saga entered');
@@ -17,7 +18,7 @@ export function* getLoansAsync(action: GetLoansAction) {
             console.log(data);
             yield put(getLoansSuccess(data));
         } else {
-            throw new Error('Something went wrong');
+            throw new Error('Something went wrong: ' + response);
         }
     } catch (err) {
         console.log(err.message);
@@ -50,6 +51,7 @@ export function* addLoanAsync(action: AddLoanAction) {
             const data = yield call([response, 'json']);
             console.log(data);
             yield put(addLoanSuccess(data));
+            yield put(getItems());
         } else {
             throw new Error('Something went wrong');
         }
