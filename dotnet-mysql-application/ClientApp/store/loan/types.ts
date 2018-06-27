@@ -9,11 +9,11 @@ export interface LoansState {
 export interface Loan {
     id: string;
     userId: string;
-    userName: string;
+    user: string;
     itemId: string;
     item: Item;
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
 }
 
 export interface GetLoansAction extends Action {
