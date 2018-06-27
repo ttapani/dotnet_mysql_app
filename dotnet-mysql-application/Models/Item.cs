@@ -13,5 +13,7 @@ namespace dotnet_mysql_application.Models
         [StringLength(250)]
         public string Name { get; set; }
         public Boolean IsAvailable { get; set; }
+        [Timestamp]
+        public DateTime Timestamp { get; set; }
     }
 }
