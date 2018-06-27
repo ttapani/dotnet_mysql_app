@@ -36,9 +36,13 @@ namespace dotnet_mysql_application.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetAllLoans()
         {
-            var loans = db.Loans.ToList();
-            if (loans == null)
+            var loans = db.Loans.Include(loan => loan.Item).ToList();
+            if (loans == null) {
                 return NotFound();
+            } 
+            else {
+                // loans.ForEach(l => l.Item = db.Item.First(i => i.Id == l.ItemId));
+            }
             return new OkObjectResult(loans);
         }
 
@@ -48,7 +52,7 @@ namespace dotnet_mysql_application.Controllers
         public IActionResult AddLoan([FromBody] NewLoan newLoan)
         {
             Console.WriteLine("received loan POST: " + newLoan.ToString());
-            if (true) {
+            if (ModelState.IsValid) {
                 var targetItem = db.Item.SingleOrDefault(i => i.Id.ToString() == newLoan.id);
                 var loan = new Loan();
                 loan.Item = targetItem;
