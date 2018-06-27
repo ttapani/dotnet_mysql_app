@@ -18,6 +18,7 @@ using System.Text;
 using dotnet_mysql_application.Auth;
 using dotnet_mysql_application.Helpers;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Logging;
 
 namespace dotnet_mysql_application
 {
@@ -114,7 +115,7 @@ namespace dotnet_mysql_application
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -129,6 +130,9 @@ namespace dotnet_mysql_application
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
             app.UseStaticFiles();
             app.UseAuthentication();
