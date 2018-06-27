@@ -36,7 +36,12 @@ namespace dotnet_mysql_application.Controllers
         [ProducesResponseType(404)]
         public IActionResult GetAllLoans()
         {
-            var loans = db.Loans.Include(loan => loan.Item).ToList();
+            // Get current user..
+            var identity = User.Identity as ClaimsIdentity;
+            var userId = Guid.Parse(identity.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
+            // Return loans associated with the current user
+            var loans = db.Loans.Include(loan => loan.Item).Where(l => l.UserId == userId).ToList();
+            // If user was an admin, we'd have to figure out how to return all records
             if (loans == null) {
                 return NotFound();
             } 
