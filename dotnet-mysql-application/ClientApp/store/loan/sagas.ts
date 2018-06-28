@@ -1,7 +1,8 @@
 // tslint:disable-next-line:no-submodule-imports
 import { call, put, takeLatest, all } from 'redux-saga/effects';
-import { GetLoansAction, GetLoansFailureAction, AddLoanAction } from './types';
+import { GetLoansAction, GetLoansFailureAction, AddLoanAction, ReturnLoanAction } from './types';
 import { getLoansSuccess, getLoansFailure, addLoanSuccess, addLoanFailure } from './actions';
+import { returnLoanSuccess, getLoans, returnLoanFailure } from './actions';
 import * as Api from '../../services/api';
 import { getItems } from '../item/actions';
 
@@ -69,11 +70,43 @@ export function* watchAddLoanFailure() {
     yield takeLatest('@@loans/ADD_FAILURE', alertUser);
 }
 
+export function* returnLoanAsync(action: ReturnLoanAction) {
+    console.log('return loan saga entered');
+    console.log('action: ' + action.type);
+    try {
+        const promise = Api.returnLoan(action.payload.returnRequest);
+        console.log('about to yield to promise');
+        const response = yield promise;
+        if (response.ok) {
+            console.log('about to parse response');
+            const data = yield call([response, 'json']);
+            console.log(data);
+            yield put(returnLoanSuccess(data));
+            yield put(getLoans());
+        } else {
+            throw new Error('Something went wrong');
+        }
+    } catch (err) {
+        console.log(err.message);
+        yield put(returnLoanFailure(err.message));
+    }
+}
+
+export function* watchReturnLoan() {
+    yield takeLatest('@@loans/RETURN', returnLoanAsync);
+}
+
+export function* watchReturnLoanFailure() {
+    yield takeLatest('@@loans/RETURN_FAILURE', alertUser);
+}
+
 export default function* loansSagas() {
     yield all([
         watchGetLoans(),
         watchGetItemsFailure(),
         watchAddLoan(),
         watchAddLoanFailure(),
+        watchReturnLoan(),
+        watchReturnLoanFailure(),
     ]);
 }
