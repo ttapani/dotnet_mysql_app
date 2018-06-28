@@ -14,6 +14,13 @@ export interface Loan {
     item: Item;
     startDate: string;
     endDate: string;
+    returnDate: string;
+    active: boolean;
+}
+
+export interface LoanReturnRequest {
+    id: string;
+    clientTime: string;
 }
 
 export interface GetLoansAction extends Action {
@@ -55,5 +62,27 @@ export interface AddLoanFailureAction extends Action {
     };
 }
 
+export interface ReturnLoanAction extends Action {
+    type: '@@loans/RETURN';
+    payload: {
+        returnRequest: LoanReturnRequest;
+    };
+}
+
+export interface ReturnLoanSuccessAction extends Action {
+    type: '@@loans/RETURN_SUCCESS';
+    payload: {
+        loan: Loan;
+    };
+}
+
+export interface ReturnLoanFailureAction extends Action {
+    type: '@@loans/RETURN_FAILURE';
+    payload: {
+        error: string;
+    };
+}
+
 export type GetLoansActions = GetLoansAction | GetLoansSuccessAction | GetLoansFailureAction;
 export type AddLoanActions = AddLoanAction | AddLoanSuccessAction | AddLoanFailureAction;
+export type ReturnLoanActions = ReturnLoanAction | ReturnLoanSuccessAction | ReturnLoanFailureAction;
