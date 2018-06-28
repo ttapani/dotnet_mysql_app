@@ -67,8 +67,9 @@ namespace dotnet_mysql_application.Controllers
                 loan.UserId = Guid.Parse(identity.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
                 // TODO: Save a user object to this
                 loan.User = identity.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
-                loan.StartDate = DateTime.Now;
+                loan.StartDate = DateTime.Today;
                 loan.EndDate = loan.StartDate + new TimeSpan(14, 0, 0, 0);
+                loan.Active = true;
                 db.Loans.Add(loan);
                 db.SaveChanges();
                 return CreatedAtAction(nameof(GetLoanById), new { id = loan.Id },  loan);
@@ -77,26 +78,26 @@ namespace dotnet_mysql_application.Controllers
                 return BadRequest();
         }
 
-        // [HttpPut("{id}")]
-        // [ProducesResponseType(200)]
-        // [ProducesResponseType(400)]
-        // public IActionResult UpdateLoan(string id, [FromBody] Loan loan)
-        // {
-        //     var targetLoan = db.Loans.SingleOrDefault(e => e.Id.ToString() == id);
-        //     if (targetLoan == null)
-        //         return NotFound();
-        //     else if(ModelState.IsValid) {
-        //         targetLoan.ItemId = loan.Id;
-        //         targetLoan.Item = loan.Item;
-        //         targetLoan.UserId = loan.Id;
-        //         targetLoan.User = loan.User;
-        //         db.Loans.Update(targetLoan);
-        //         db.SaveChanges();
-        //         return Ok(loan);
-        //     }
-        //     else
-        //         return BadRequest();
-        // }
+        [HttpPut("{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public IActionResult ReturnLoan(string id, [FromBody] ReturnedLoan loan)
+        {
+            var returnedLoan = db.Loans.SingleOrDefault(r => r.Id.ToString() == id);
+            if (returnedLoan == null)
+                return NotFound();
+            else if(ModelState.IsValid) {
+                returnedLoan.Active = false;
+                returnedLoan.ReturnDate = DateTime.Now;
+                db.Loans.Update(returnedLoan);
+                var returnedItem = db.Item.FirstOrDefault(i => i.Id.Equals(returnedLoan.ItemId));
+                returnedItem.IsAvailable = true;
+                db.SaveChanges();
+                return Ok(returnedLoan);
+            }
+            else
+                return BadRequest();
+        }
 
         // [HttpDelete("{id}")]
         // [ProducesResponseType(204)]
