@@ -15,5 +15,7 @@ namespace dotnet_mysql_application.Models
         public string User { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public Boolean Active { get; set; }
+        public DateTime ReturnDate { get; set; }
     }
 }
