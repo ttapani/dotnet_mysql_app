@@ -1,5 +1,6 @@
 import { UserCredentials } from '../store/user/types';
 import { Item } from '../store/item/types';
+import { LoanReturnRequest } from '../store/loan/types';
 
 const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost:3000/api' : '/api';
 
@@ -65,10 +66,19 @@ export const getLoans = () => {
 };
 
 export const addLoan = (id: string) => {
-console.log('entered add loan promise creator in api');
-const url = ROOT_URL + '/v1/loan';
-const requestObject = {id: id};
-const promise = fetch(url,
-  {body: JSON.stringify(requestObject), headers: getHeaders(), method: 'POST'});
-return promise;
+  console.log('entered add loan promise creator in api');
+  const url = ROOT_URL + '/v1/loan';
+  const requestObject = {id: id};
+  const promise = fetch(url,
+    {body: JSON.stringify(requestObject), headers: getHeaders(), method: 'POST'});
+  return promise;
+};
+
+export const returnLoan = (request: LoanReturnRequest) => {
+  console.log('entered return loan promise creator in api');
+  const url = `${ROOT_URL}/v1/loan/${request.id}`;
+  const requestObject = {ReturnedTime: request.clientTime};
+  const promise = fetch(url,
+    {body: JSON.stringify(requestObject), headers: getHeaders(), method: 'PUT'});
+  return promise;
 };
