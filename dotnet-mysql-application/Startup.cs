@@ -24,20 +24,30 @@ namespace dotnet_mysql_application
 {
     public class Startup
     {
-        // This should not be hardcoded here..
-        private const string SecretKey = "asdfasdfasdfasdfasdf123";
-        private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
-
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            CurrentEnvironment = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment CurrentEnvironment { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // This should not be hardcoded here..
+            // For dev, generate new key for every server start
+            // So old tokens get invalidated..
+            string SecretKey;
+            if (CurrentEnvironment.IsDevelopment()) {
+                SecretKey = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            } else {
+                // Get from env, not hard coded..
+                SecretKey = "asdfasdfasdfasdfasdf123";
+            }
+            SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
+
             // Add Database
             if (Configuration["Database:Type"] == "MySQL")
             {
@@ -131,8 +141,8 @@ namespace dotnet_mysql_application
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            // loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            // loggerFactory.AddDebug();
 
             app.UseStaticFiles();
             app.UseAuthentication();
