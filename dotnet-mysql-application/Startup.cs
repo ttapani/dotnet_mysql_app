@@ -19,6 +19,8 @@ using dotnet_mysql_application.Auth;
 using dotnet_mysql_application.Helpers;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
 
 namespace dotnet_mysql_application
 {
@@ -47,6 +49,17 @@ namespace dotnet_mysql_application
                 SecretKey = "asdfasdfasdfasdfasdf123";
             }
             SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
+
+            // Logging
+            var elasticUri = Configuration["ElasticConfiguration:Uri"];
+
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(elasticUri))
+                {
+                    AutoRegisterTemplate = true,
+                })
+            .CreateLogger();
 
             // Add Database
             if (Configuration["Database:Type"] == "MySQL")
@@ -143,6 +156,7 @@ namespace dotnet_mysql_application
 
             // loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             // loggerFactory.AddDebug();
+            loggerFactory.AddSerilog();
 
             app.UseStaticFiles();
             app.UseAuthentication();

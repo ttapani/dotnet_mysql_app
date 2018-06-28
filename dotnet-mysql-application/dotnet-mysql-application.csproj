@@ -16,6 +16,9 @@
     <PackageReference Include="Bogus" Version="22.1.1" />
     <PackageReference Include="FluentValidation.aspnetcore" Version="7.5.2" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
+    <PackageReference Include="Serilog" Version="2.7.1" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="2.0.2" />
+    <PackageReference Include="Serilog.Sinks.ElasticSearch" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>

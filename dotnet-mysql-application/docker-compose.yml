@@ -8,6 +8,8 @@ services:
       - "5001:80"
     volumes:
       - ./:/code/app:cached
+    networks:
+      - docker-network
     restart: always
   db:
     image: mysql:8.0.3
@@ -18,9 +20,38 @@ services:
       MYSQL_DATABASE: db_1
     ports:
       - "3306:3306"
+    networks:
+      - docker-network
     restart: always
   mywebsql:
     image: quantumobject/docker-mywebsql
     ports:
       - "9001:80"
+    networks:
+      - docker-network
     restart: always
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    networks:
+      - docker-network
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.2.4
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - docker-network
+
+networks:
+  docker-network:
+    driver: bridge
+
+volumes:
+  elasticsearch-data:
